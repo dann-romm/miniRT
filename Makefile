@@ -20,6 +20,8 @@ UTILS_SRC		=	$(UTILS_SRCDIR)/ft_bzero.c \
 
 SRC				=	$(SRCDIR)/main.c \
 					$(SRCDIR)/color.c \
+					$(SRCDIR)/point.c \
+					$(SRCDIR)/vector.c \
 					$(UTILS_SRC)
 
 # object files and dependency files

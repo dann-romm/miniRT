@@ -13,11 +13,16 @@
 # include <math.h>
 # include <stdint.h>
 
-#include "color.h"
+# include "color.h"
+# include "canvas.h"
 
 # define EPSILON 1e-5
 
 typedef int bool;
+
+/***************************************************
+ *                   Structures                    *
+ ***************************************************/
 
 typedef struct s_point3d
 {
@@ -36,7 +41,7 @@ typedef struct s_vector3d
 typedef struct s_point2d
 {
 	double	x;
-	double	z;
+	double	y;
 }	t_point2d;
 
 typedef struct s_light_source3d
@@ -171,5 +176,118 @@ typedef struct s_camera
 
 	double		proj_plane_dist;
 }	t_camera;
+
+/***************************************************
+ *                     Render                      *
+ ***************************************************/
+
+void	render_scene(const t_scene *const scene, const t_camera *const camera, t_canvas *canvas, const int num_threads);
+
+/***************************************************
+ *                     t_scene                       *
+ ***************************************************/
+
+t_scene	*new_scene(const int objects_count, const int light_sources_count, const t_color background_color);
+
+void	release_scene(t_scene *scene);
+
+void	add_object(t_scene *const scene, t_object3d *const object);
+
+void	prepare_scene(t_scene *const scene);
+
+void	set_exponential_fog(t_scene *const scene, const double k);
+
+void	set_no_fog(t_scene *const scene);
+
+t_color	trace(const t_scene *const scene, const t_camera *const camera, t_vector3d vector);
+
+void	add_light_source(t_scene *const scene, t_light_source3d *const light_source);
+
+/***************************************************
+ *                    3D objects                   *
+ ***************************************************/
+
+
+t_object3d	*new_triangle(const t_point3d p1, const t_point3d p2, const t_point3d p3, const t_color color, const t_material material);
+
+t_object3d	*new_triangle_with_norms(
+	const t_point3d p1,
+	const t_point3d p2,
+	const t_point3d p3,
+	const t_vector3d n1,
+	const t_vector3d n2,
+	const t_vector3d n3,
+	const t_color color,
+	const t_material material
+);
+
+t_object3d	*new_triangle_with_texture(
+	const t_point3d p1,
+	const t_point3d p2,
+	const t_point3d p3,
+	const t_point2d t1,
+	const t_point2d t2,
+	const t_point2d t3,
+	t_canvas *texture,
+	const t_color color,
+	const t_material material
+);
+
+t_object3d	*new_sphere(
+	const t_point3d center,
+	const double radius,
+	const t_color color,
+	const t_material material
+);
+
+void	release_object3d(t_object3d *obj);
+
+t_light_source3d	*new_light_source(const t_point3d location, const t_color color);
+
+t_material	material(
+	const double Ka,
+	const double Kd,
+	const double Ks,
+	const double Kr,
+	const double Kt,
+	const double p
+);
+
+/***************************************************
+ *                     Camera                      *
+ ***************************************************/
+
+
+t_camera	*new_camera(
+	const t_point3d camera_position,
+	const double al_x,
+	const double al_y,
+	const double al_z,
+	const double proj_plane_dist
+);
+
+void	release_camera(t_camera *const cam);
+
+void	rotate_camera(
+	t_camera *const cam,
+	const double al_x,
+	const double al_y,
+	const double al_z
+);
+
+void	move_camera(t_camera *const camera, const t_vector3d vector);
+
+/***************************************************
+ *                Point and vectors                *
+ ***************************************************/
+
+t_point2d	point2d(const double x, const double y);
+
+t_point3d	point3d(const double x, const double y, const double z);
+
+t_vector3d	vector3dp(const t_point3d start_point, const t_point3d end_point);
+
+t_vector3d	vector3df(const double x, const double y, const double z);
+
 
 #endif
