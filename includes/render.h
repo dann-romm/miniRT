@@ -76,6 +76,7 @@ typedef struct s_material
 
 typedef struct s_object3d
 {
+	void		*data;
 	//
 	bool		(*intersect)(const void *data, const t_point3d vector_start, const t_vector3d vector, t_point3d *intersection_point);
 	//
@@ -254,9 +255,8 @@ t_material	material(
 );
 
 /***************************************************
- *                     Camera                      *
+ *                     t_camera                    *
  ***************************************************/
-
 
 t_camera	*new_camera(
 	const t_point3d camera_position,
