@@ -5,55 +5,34 @@
 
 typedef struct s_canvas
 {
-	int	w;
-	int	h;
+	int		w;
+	int		h;
 	t_color	*data;
 }	t_canvas;
 
+// create new empty canvas
+t_canvas	*new_canvas(int width, int height);
 
+// convert all canvas to grascape colors
+t_canvas	*grayscale_canvas(t_canvas *base, int num_threads);
 
-// Canvas *
-// new_canvas(int width,
-//            int height);
+t_canvas	*detect_edges_canvas(t_canvas *base, int num_threads);
 
-// Canvas *
-// grayscale_canvas(Canvas * base,
-//                  int num_threads);
+// delete canvas and free all allocated data
+void		delete_canvas(t_canvas *canv);
 
-// Canvas *
-// detect_edges_canvas(Canvas * base,
-//                     int num_threads);
+// clears canvas, reset all colors to default
+void		clear_canvas(t_canvas *canv);
 
-// void
-// release_canvas(Canvas * c);
+// set pixel color on given coordinates
+void	set_pixel(int x, int y, t_color c, t_canvas *canv);
 
-// void
-// clear_canvas(Canvas * canv);
+// get pixel color on given coordinates
+t_color get_pixel(int x, int y, t_canvas *canv);
 
-// static inline void
-// set_pixel(int x,
-//           int y,
-//           Color c,
-//           Canvas * canv) {
-    
-// 	const int offs = y * canv->w + x;
-// 	canv->data[offs] = c;
-// }
+// t_canvas	*read_png(char *file_name);
 
-// static inline Color
-// get_pixel(int x,
-//           int y,
-//           Canvas * canv) {
-    
-// 	const int offs = y * canv->w + x;
-// 	return canv->data[offs];
-// }
-
-// Canvas *
-// read_png(char * file_name);
-
-// void write_png(char file_name[],
-//                Canvas * canv);
+// void	write_png(char file_name[], t_canvas *canv);
 
 
 #endif
