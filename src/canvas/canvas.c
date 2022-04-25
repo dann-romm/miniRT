@@ -1,3 +1,4 @@
+#include <math.h>
 #include "canvas.h"
 #include "ft_utils.h"
 

@@ -1,7 +1,6 @@
 #ifndef CANVAS_H
 # define CANVAS_H
 
-# include <math.h>
 # include "color.h"
 
 typedef struct s_canvas
