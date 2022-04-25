@@ -8,7 +8,7 @@ NAME			= miniRT
 
 # directories
 SRCDIR			= ./src
-UTILS_SRCDIR	= $(SRCDIR)/utils
+UTILS_SRCDIR	= $(SRCDIR)/utils_ft
 
 OBJDIR			= ./build
 INCDIR			= ./includes
