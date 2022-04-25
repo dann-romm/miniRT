@@ -17,6 +17,7 @@
 # include "canvas.h"
 
 # define EPSILON 1e-5
+# define DBL_MAX 1.7976931348623157e+308
 
 typedef int bool;
 
