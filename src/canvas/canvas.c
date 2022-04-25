@@ -8,11 +8,11 @@ t_canvas	*new_canvas(int width, int height)
 	c = (t_canvas *) malloc(sizeof(t_canvas));
 	c->w = width;
 	c->h = height;
-	c->data = (t_color *) calloc(width * height + 1, sizeof(t_color));
+	c->data = (t_color *) ft_calloc(width * height + 1, sizeof(t_color));
 	return (c);
 }
 
-void	delete_canvas(t_canvas *c)
+void	release_canvas(t_canvas *c)
 {
 	free(c->data);
 	free(c);
@@ -70,11 +70,11 @@ int mattrix_y[3][3] =
 
 t_canvas	*detect_edges_canvas(t_canvas *base, int num_threads) // TODO: разобраться с gx, gy
 {
-	const t_canvas	*grayscaled_canv = grayscale_canvas(base, num_threads);
-	t_canvas		*grad_canv = new_canvas(base->w, base->h);
-	uint8_t			grad;
-	int				x;
-	int				y;
+	t_canvas	*grayscaled_canv = grayscale_canvas(base, num_threads);
+	t_canvas	*grad_canv = new_canvas(base->w, base->h);
+	uint8_t		grad;
+	int			x;
+	int			y;
 
 	x = 0;
 	while (++x < base->w - 1)
@@ -104,6 +104,6 @@ t_canvas	*detect_edges_canvas(t_canvas *base, int num_threads) // TODO: разо
 		}
 	}
 	
-	delete_canvas(grayscaled_canv);
+	release_canvas(grayscaled_canv);
 	return (grad_canv);
 }

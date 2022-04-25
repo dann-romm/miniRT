@@ -11,13 +11,15 @@ SRCDIR				= ./src
 OBJDIR				= ./build
 INCDIR				= ./includes
 
+CANVAS_SRCDIR		= $(SRCDIR)/canvas
+COLOR_SRCDIR		= $(SRCDIR)/color
 UTILS_FT_SRCDIR		= $(SRCDIR)/utils_ft
 UTILS_SRCDIR		= $(SRCDIR)/utils
 
 # source files
-UTILS_FT_SRC		=	$(UTILS_FT_SRCDIR)/ft_bzero.c \
-						$(UTILS_FT_SRCDIR)/ft_calloc.c \
-						$(UTILS_FT_SRCDIR)/ft_memset.c
+CANVAS_SRC			=	$(CANVAS_SRCDIR)/canvas.c
+
+COLOR_SRC			=	$(COLOR_SRCDIR)/color.c
 
 UTILS_SRC			=	$(UTILS_SRCDIR)/reflect_ray.c \
 						$(UTILS_SRCDIR)/rotate_point.c \
@@ -25,12 +27,17 @@ UTILS_SRC			=	$(UTILS_SRCDIR)/reflect_ray.c \
 						$(UTILS_SRCDIR)/vector_product.c \
 						$(UTILS_SRCDIR)/vector_utils.c
 
+UTILS_FT_SRC		=	$(UTILS_FT_SRCDIR)/ft_bzero.c \
+						$(UTILS_FT_SRCDIR)/ft_calloc.c \
+						$(UTILS_FT_SRCDIR)/ft_memset.c
+
 SRC					=	$(SRCDIR)/main.c \
-						$(SRCDIR)/color.c \
 						$(SRCDIR)/point.c \
 						$(SRCDIR)/vector.c \
-						$(UTILS_FT_SRC) \
-						$(UTILS_SRC)
+						$(CANVAS_SRC) \
+						$(COLOR_SRC) \
+						$(UTILS_SRC) \
+						$(UTILS_FT_SRC)
 
 # object files and dependency files
 OBJ					= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
