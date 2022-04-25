@@ -15,7 +15,8 @@ INCDIR			= ./includes
 
 # source files
 UTILS_SRC		=	$(UTILS_SRCDIR)/ft_bzero.c \
-					$(UTILS_SRCDIR)/ft_calloc.c
+					$(UTILS_SRCDIR)/ft_calloc.c \
+					$(UTILS_SRCDIR)/ft_memset.c
 
 SRC				=	$(SRCDIR)/main.c \
 					$(SRCDIR)/color.c \
