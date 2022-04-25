@@ -1,19 +1,29 @@
-CC			= gcc
-RM			= rm -rf
-# CFLAGS		= -Wall -Wextra -Werror -Ofast -MMD
-CFLAGS		= -Ofast -MMD
+CC				= gcc
+RM				= rm -rf
+# CFLAGS			= -Wall -Wextra -Werror -Ofast -MMD
+CFLAGS			= -Ofast -MMD
 
-NAME		= miniRT
+# program's name
+NAME			= miniRT
 
-SRCDIR		= ./src
-OBJDIR		= ./build
-INCDIR		= ./includes
+# directories
+SRCDIR			= ./src
+UTILS_SRCDIR	= $(SRCDIR)/utils
 
-SRC			=	$(SRCDIR)/main.c \
-				$(SRCDIR)/color.c
+OBJDIR			= ./build
+INCDIR			= ./includes
 
-OBJ			= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
-DEP			= $(OBJ:.o=.d)
+# source files
+UTILS_SRC		=	$(UTILS_SRCDIR)/ft_bzero.c \
+					$(UTILS_SRCDIR)/ft_calloc.c
+
+SRC				=	$(SRCDIR)/main.c \
+					$(SRCDIR)/color.c \
+					$(UTILS_SRC)
+
+# object files and dependency files
+OBJ				= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
+DEP				= $(OBJ:.o=.d)
 
 all: $(NAME)
 
