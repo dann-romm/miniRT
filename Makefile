@@ -1,32 +1,40 @@
-CC				= gcc
-RM				= rm -rf
-# CFLAGS			= -Wall -Wextra -Werror -Ofast -MMD
-CFLAGS			= -Ofast -MMD
+CC					= gcc
+RM					= rm -rf
+# CFLAGS				= -Wall -Wextra -Werror -Ofast -MMD
+CFLAGS				= -Ofast -MMD
 
-# program's name
-NAME			= miniRT
+# program's name	
+NAME				= miniRT
 
-# directories
-SRCDIR			= ./src
-UTILS_SRCDIR	= $(SRCDIR)/utils_ft
+# directories	
+SRCDIR				= ./src
+OBJDIR				= ./build
+INCDIR				= ./includes
 
-OBJDIR			= ./build
-INCDIR			= ./includes
+UTILS_FT_SRCDIR		= $(SRCDIR)/utils_ft
+UTILS_SRCDIR		= $(SRCDIR)/utils
 
 # source files
-UTILS_SRC		=	$(UTILS_SRCDIR)/ft_bzero.c \
-					$(UTILS_SRCDIR)/ft_calloc.c \
-					$(UTILS_SRCDIR)/ft_memset.c
+UTILS_FT_SRC		=	$(UTILS_FT_SRCDIR)/ft_bzero.c \
+						$(UTILS_FT_SRCDIR)/ft_calloc.c \
+						$(UTILS_FT_SRCDIR)/ft_memset.c
 
-SRC				=	$(SRCDIR)/main.c \
-					$(SRCDIR)/color.c \
-					$(SRCDIR)/point.c \
-					$(SRCDIR)/vector.c \
-					$(UTILS_SRC)
+UTILS_SRC			=	$(UTILS_SRCDIR)/reflect_ray.c \
+						$(UTILS_SRCDIR)/rotate_point.c \
+						$(UTILS_SRCDIR)/rotate_vector.c \
+						$(UTILS_SRCDIR)/vector_product.c \
+						$(UTILS_SRCDIR)/vector_utils.c
+
+SRC					=	$(SRCDIR)/main.c \
+						$(SRCDIR)/color.c \
+						$(SRCDIR)/point.c \
+						$(SRCDIR)/vector.c \
+						$(UTILS_FT_SRC) \
+						$(UTILS_SRC)
 
 # object files and dependency files
-OBJ				= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
-DEP				= $(OBJ:.o=.d)
+OBJ					= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
+DEP					= $(OBJ:.o=.d)
 
 all: $(NAME)
 
