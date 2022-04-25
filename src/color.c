@@ -29,22 +29,21 @@ t_color	add_colors(t_color c1, t_color c2)
 
 t_color	mix_colors(t_color c1, t_color c2)
 {
+	t_color	c;
 	/*
-	c1.r = ((uint16_t) c1.r + c2.r) >> 1;
-	c1.g = ((uint16_t) c1.g + c2.g) >> 1;
-	c1.b = ((uint16_t) c1.b + c2.b) >> 1;
+	c.r = ((uint16_t) c1.r + c2.r) >> 1;
+	c.g = ((uint16_t) c1.g + c2.g) >> 1;
+	c.b = ((uint16_t) c1.b + c2.b) >> 1;
 	*/
-
-	c1.r = ((uint16_t) c1.r * c2.r) >> 8;
-	c1.g = ((uint16_t) c1.g * c2.g) >> 8;
-	c1.b = ((uint16_t) c1.b * c2.b) >> 8;
-
+	c.r = ((uint16_t) c1.r * c2.r) >> 8;
+	c.g = ((uint16_t) c1.g * c2.g) >> 8;
+	c.b = ((uint16_t) c1.b * c2.b) >> 8;
 	/*
-	c1.r = sqrt((uint16_t) c1.r * c2.r);
-	c1.g = sqrt((uint16_t) c1.g * c2.g);
-	c1.b = sqrt((uint16_t) c1.b * c2.b);
+	c.r = sqrt((uint16_t) c1.r * c2.r);
+	c.g = sqrt((uint16_t) c1.g * c2.g);
+	c.b = sqrt((uint16_t) c1.b * c2.b);
 	*/
-	return (c1);
+	return (c);
 }
 
 t_color	mul_color(t_color c, double k)

@@ -1,5 +1,5 @@
 #include "canvas.h"
-#include "utils.h"
+#include "ft_utils.h"
 
 t_canvas	*new_canvas(int width, int height)
 {

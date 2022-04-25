@@ -2,10 +2,19 @@
 
 t_point2d	point2d(const double x, const double y)
 {
-	return ((t_point2d) {.x = x, .y = y});
+	t_point2d	p;
+
+	p.x = x;
+	p.y = y;
+	return (p);
 }
 
 t_point3d	point3d(const double x, const double y, const double z)
 {
-	return ((t_point3d) {.x = x, .y = y, .z = z});
+	t_point3d	p;
+
+	p.x = x;
+	p.y = y;
+	p.z = z;
+	return (p);
 }
