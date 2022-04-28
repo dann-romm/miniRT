@@ -13,11 +13,6 @@ typedef struct s_canvas
 // create new empty canvas
 t_canvas	*new_canvas(int width, int height);
 
-// convert all canvas to grascape colors
-t_canvas	*grayscale_canvas(t_canvas *base, int num_threads);
-
-t_canvas	*detect_edges_canvas(t_canvas *base, int num_threads);
-
 // delete canvas and free all allocated data
 void		release_canvas(t_canvas *c);
 
@@ -30,9 +25,9 @@ void		set_pixel(int x, int y, t_color c, t_canvas *canv);
 // get pixel color on given coordinates
 t_color		get_pixel(int x, int y, t_canvas *canv);
 
-// t_canvas	*read_png(char *file_name);
+// // convert all canvas to grascape colors
+// t_canvas	*grayscale_canvas(t_canvas *base, int num_threads);
 
-// void	write_png(char file_name[], t_canvas *canv);
-
+// t_canvas	*detect_edges_canvas(t_canvas *base, int num_threads);
 
 #endif

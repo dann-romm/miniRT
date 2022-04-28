@@ -1,4 +1,4 @@
-#include "render.h"
+#include "point.h"
 
 t_point2d	point2d(const double x, const double y)
 {
