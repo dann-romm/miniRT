@@ -1,4 +1,6 @@
+#include <stdlib.h>
 #include "scene.h"
+#include "utils_ft.h"
 
 // Declarations
 // --------------------------------------------------------------
@@ -17,8 +19,7 @@ t_scene	*new_scene(const int objects_count,
 	s->objects_count = objects_count;
 	s->objects = ft_calloc(objects_count, sizeof(t_object3d *));
 	if (light_sources_count)
-		s->light_sources = ft_calloc(light_sources_count,
-				sizeof(t_light_source3d *));
+		s->light_sources = ft_calloc(light_sources_count, sizeof(t_light_source3d *));
 	s->light_sources_count = light_sources_count;
 	s->background_color = background_color;
 	s->last_object_index = -1;

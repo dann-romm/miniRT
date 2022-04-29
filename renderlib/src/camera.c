@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "camera.h"
 
 t_camera	*new_camera(const t_point3d camera_position, const double al_x, const double al_y, const double al_z, const double proj_plane_dist)

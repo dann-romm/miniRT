@@ -5,6 +5,10 @@
 # include "point.h"
 # include "vector.h"
 
+typedef int bool;
+# define True 1
+# define False 0
+
 typedef struct s_light_source3d
 {
 	// Absolute location
@@ -53,6 +57,5 @@ typedef struct s_object3d
 	//
 	void		(*release_data)(void *data);
 }	t_object3d;
-
 
 #endif

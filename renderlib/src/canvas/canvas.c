@@ -1,7 +1,7 @@
 #include <math.h>
 #include "canvas.h"
 #include "color.h"
-#include "ft_utils.h"
+#include "utils_ft.h"
 
 t_canvas	*new_canvas(int width, int height)
 {
@@ -95,8 +95,8 @@ t_color	get_pixel(int x, int y, t_canvas *canv)
 // 			}
 			
 // 			int gy = 0;
-// 			for(i = -1; i < 2; ++i) {
-// 				for(j = -1; j < 2; ++j) {
+// 			for (i = -1; i < 2; ++i) {
+// 				for (j = -1; j < 2; ++j) {
 // 					gy += mattrix_y[i + 1][j + 1] * get_pixel(x + i, y + j, grayscaled_canv).r;
 // 				}
 // 			}

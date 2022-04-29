@@ -9,11 +9,12 @@
 typedef struct s_scene
 {
 	// Array of pointers to 3d objects of scene
-	t_object3d	**objects;
-	int			objects_count;
-	int			last_object_index;
+	t_object3d			**objects;
+	int					objects_count;
+	int					last_object_index;
 	
-	t_KDTree	*kd_tree;
+	// kdtree that contains
+	t_KDTree			*kd_tree;
 	
 	// Array of pointers to light sources
 	t_light_source3d	**light_sources;
@@ -21,11 +22,11 @@ typedef struct s_scene
 	int					last_light_source_index;
 	
 	// background color of the scene;
-	t_color	background_color;
+	t_color				background_color;
 	
 	// Required to return value from interval [0..1]
-	double	(*fog_density)(const double distance, const void *fog_parameters);
-	void	*fog_parameters;
+	double				(*fog_density)(const double distance, const void *fog_parameters);
+	void				*fog_parameters;
 }	t_scene;
 
 
@@ -42,5 +43,11 @@ void	set_exponential_fog(t_scene *const scene, const double k);
 void	set_no_fog(t_scene *const scene);
 
 void	add_light_source(t_scene *const scene, t_light_source3d *const light_source);
+
+void	release_object3d(t_object3d *obj);
+
+t_light_source3d	*new_light_source(const t_point3d location, const t_color color);
+
+t_material			material(const double Ka, const double Kd, const double Ks, const double Kr, const double Kt, const double p);
 
 #endif
