@@ -3,7 +3,7 @@ RM					= rm -rf
 CFLAGS				= -Ofast -MMD
 
 # program's name
-NAME				= renderlib.a
+NAME				= librender.a
 
 # directories
 SRCDIR				= ./src

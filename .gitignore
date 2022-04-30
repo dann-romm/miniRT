@@ -1,5 +1,5 @@
 miniRT
-renderlib.a
+librender.a
 
 build
 *.o
