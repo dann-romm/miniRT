@@ -11,32 +11,22 @@ typedef int bool;
 
 typedef struct s_light_source3d
 {
-	// Absolute location
-	t_point3d	location_world;
-	// Location on projection
-	t_point3d	location;
+	t_point3d	location_world; // Absolute location
+	t_point3d	location; // Location on projection plane
 	t_color		color;
 }	t_light_source3d;
 
+// material properties of object (color, reflectivity, transparency, etc.)
+// Required:
+// Ka + Kd + Ks + Kr + Kt = 1.0
 typedef struct s_material
 {
-	// Required:
-	// Ka + Kd + Ks + Kr + Kt = 1.0
-
-	// Ambient
-	double	Ka;
-	// Diffuse
-	double	Kd;
-	// Specular
-	double	Ks;
-	// Reflection
-	double	Kr;
-	// Transparency
-	double	Kt;
-
-	// Ks * light_source_color * ((cos(..))^p)
-	double	p;
-
+	double	Ka; // Ambient
+	double	Kd; // Diffuse
+	double	Ks; // Specular
+	double	Kr; // Reflection
+	double	Kt; // Transparency
+	double	p; // Ks * light_source_color * ((cos(..))^p)
 }	t_material;
 
 typedef struct s_object3d

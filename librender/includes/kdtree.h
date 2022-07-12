@@ -5,7 +5,7 @@
 # include "point.h"
 # include "vector.h"
 
-typedef enum s_plane
+typedef enum e_plane
 {
 	NONE,
 	XY,
@@ -25,7 +25,6 @@ typedef struct s_voxel
 	double	x_min;
 	double	y_min;
 	double	z_min;
-
 	double	x_max;
 	double	y_max;
 	double	z_max;
@@ -35,10 +34,8 @@ typedef struct s_KDNode
 {
 	t_plane			plane;
 	t_coord			coord;
-
 	t_object3d		**objects;
 	int				objects_count;
-	
 	struct s_KDNode	*l;
 	struct s_KDNode	*r;
 }	t_KDNode;

@@ -1,5 +1,5 @@
-#ifndef FT_UTILS_H
-# define FT_UTILS_H
+#ifndef UTILS_FT_H
+# define UTILS_FT_H
 
 # include <stdlib.h>
 

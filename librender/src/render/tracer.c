@@ -4,7 +4,6 @@
 
 #include "render.h"
 #include "scene.h"
-#include "utils.h"
 #include "kdtree.h"
 #include "color.h"
 
@@ -47,6 +46,9 @@ t_color	calculate_color(
 	const double *const dist_ptr,
 	const double intensity,
 	const int recursion_level);
+
+// reflect_ray.c
+t_vector3d	reflect_ray(const t_vector3d incident_ray, const t_vector3d norm_v);
 
 // Code
 // --------------------------------------------------------------

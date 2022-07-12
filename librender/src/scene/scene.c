@@ -10,8 +10,7 @@ void	rebuild_kd_tree(t_scene *scene);
 // Code
 // --------------------------------------------------------------
 
-t_scene	*new_scene(const int objects_count,
-	const int light_sources_count, const t_color background_color)
+t_scene	*new_scene(const int objects_count, const int light_sources_count, const t_color background_color)
 {
 	t_scene	*s;
 

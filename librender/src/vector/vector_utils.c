@@ -1,4 +1,5 @@
-#include "utils.h"
+#include <math.h>
+#include "vector.h"
 
 double	sqr_module_vector(const t_vector3d v)
 {

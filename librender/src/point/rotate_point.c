@@ -1,4 +1,4 @@
-#include "utils.h"
+#include "point.h"
 
 t_point3d	rotate_point_x(const t_point3d p,
 	const double sin_al, const double cos_al)

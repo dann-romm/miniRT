@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <math.h>
 #include "scene.h"
 
 void	set_no_fog(t_scene *const scene)

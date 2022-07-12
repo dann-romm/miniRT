@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <math.h>
 #include "camera.h"
 
 t_camera	*new_camera(const t_point3d camera_position, const double al_x, const double al_y, const double al_z, const double proj_plane_dist)
@@ -6,6 +7,8 @@ t_camera	*new_camera(const t_point3d camera_position, const double al_x, const d
 	t_camera	*cam;
 
 	cam = malloc(sizeof(t_camera));
+	if (cam == NULL)
+		return (NULL);
 	cam->camera_position = camera_position;
 	cam->al_x = al_x;
 	cam->sin_al_x = sin(al_x);
@@ -25,7 +28,8 @@ void	release_camera(t_camera *const cam)
 	free(cam);
 }
 
-void	rotate_camera(t_camera *const cam, const double al_x, const double al_y, const double al_z)
+void	rotate_camera(t_camera *const cam, const double al_x,
+	const double al_y, const double al_z)
 {
 	if (fabs(al_x) > EPSILON)
 	{
@@ -56,5 +60,6 @@ void	move_camera(t_camera *const camera, const t_vector3d vector)
 	r_vector = rotate_vector_z(r_vector, camera->sin_al_z, camera->cos_al_z);
 	r_vector = rotate_vector_y(r_vector, camera->sin_al_y, camera->cos_al_y);
 	curr_pos = camera->camera_position;
-	camera->camera_position = point3d(curr_pos.x + r_vector.x, curr_pos.y + r_vector.y, curr_pos.z + r_vector.z);
+	camera->camera_position = point3d(curr_pos.x + r_vector.x,
+			curr_pos.y + r_vector.y, curr_pos.z + r_vector.z);
 }

@@ -54,7 +54,6 @@ t_color	mul_color(t_color c, double k)
 	return (c);
 }
 
-// https://en.wikipedia.org/wiki/Grayscale
 t_color	grayscale(t_color c)
 {
 	// const uint8_t gray = (uint8_t)(c.r * 0.299 + c.g * 0.587 + c.b * 0.114);

@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <math.h>
 #include "kdtree.h"
-#include "utils.h"
 #include "utils_ft.h"
+#include "utils_math.h"
 
 #define MAX_TREE_DEPTH 20
 #define OBJECTS_IN_LEAF 1
@@ -14,33 +14,33 @@
 // Declarations
 // --------------------------------------------------------------
 
-t_voxel	make_initial_voxel(t_object3d **objects, int objects_count);
+t_voxel		make_initial_voxel(t_object3d **objects, int objects_count);
 
 t_KDNode	*rec_build(t_object3d **objects, int objects_count, t_voxel v, int iter);
 
 t_KDNode	*make_leaf(t_object3d **objects, int objects_count);
 
-void	find_plane(t_object3d **objects, const int objects_count, const t_voxel v, const int tree_depth, t_plane *const p, t_coord *const c);
+void		find_plane(t_object3d **objects, const int objects_count, const t_voxel v, const int tree_depth, t_plane *const p, t_coord *const c);
 
-int	objects_in_voxel(t_object3d **objects, const int objects_count, const t_voxel v);
+int			objects_in_voxel(t_object3d **objects, const int objects_count, const t_voxel v);
 
-void	split_voxel(const t_voxel v, const t_plane p, const t_coord c, t_voxel *const vl, t_voxel *const vr);
+void		split_voxel(const t_voxel v, const t_plane p, const t_coord c, t_voxel *const vl, t_voxel *const vr);
 
-int	filter_overlapped_objects(t_object3d **objects, const int objects_count, const t_voxel v);
+int			filter_overlapped_objects(t_object3d **objects, const int objects_count, const t_voxel v);
 
-bool	vector_plane_intersection(const t_vector3d vector, const t_point3d vector_start, const t_plane plane, const t_coord coord, t_point3d *const result);
+bool		vector_plane_intersection(const t_vector3d vector, const t_point3d vector_start, const t_plane plane, const t_coord coord, t_point3d *const result);
 
-bool	voxel_intersection(const t_vector3d vector, const t_point3d vector_start, const t_voxel v);
+bool		voxel_intersection(const t_vector3d vector, const t_point3d vector_start, const t_voxel v);
 
-bool	object_in_voxel(t_object3d *const obj, const t_voxel v);
+bool		object_in_voxel(t_object3d *const obj, const t_voxel v);
 
-bool	point_in_voxel(const t_point3d p, const t_voxel v);
+bool		point_in_voxel(const t_point3d p, const t_voxel v);
 
-bool	find_intersection_node(t_KDNode *const node, const t_voxel v, const t_point3d vector_start, const t_vector3d vector, t_object3d **const nearest_obj_ptr, t_point3d *const nearest_intersection_point_ptr, double *const nearest_intersection_point_dist_ptr);
+bool		find_intersection_node(t_KDNode *const node, const t_voxel v, const t_point3d vector_start, const t_vector3d vector, t_object3d **const nearest_obj_ptr, t_point3d *const nearest_intersection_point_ptr, double *const nearest_intersection_point_dist_ptr);
 
-bool	is_intersect_anything_node(t_KDNode *const node, const t_voxel v, const t_point3d vector_start, const t_vector3d vector);
+bool		is_intersect_anything_node(t_KDNode *const node, const t_voxel v, const t_point3d vector_start, const t_vector3d vector);
 
-void	release_kd_node(t_KDNode *node);
+void		release_kd_node(t_KDNode *node);
 
 
 // Code
@@ -81,7 +81,7 @@ t_KDTree	*build_kd_tree(t_object3d **objects, int objects_count)
 	return (tree);
 }
 
-t_KDNode	*rec_build(t_object3d ** objects, int objects_count, t_voxel v, int iter)
+t_KDNode	*rec_build(t_object3d **objects, int objects_count, t_voxel v, int iter)
 {
 	t_plane		p;
 	t_coord		c;
@@ -160,12 +160,6 @@ void	split_voxel(const t_voxel v, const t_plane p, const t_coord c, t_voxel *con
 		vl->x_max = c.x;
 		vr->x_min = c.x;
 	}
-	// else
-	// {
-	// 	// Unreachable case
-	// 	printf("[split_voxel] Plane is NONE. Error");
-	// 	exit(1);
-	// }
 }
 
 /*
@@ -325,64 +319,54 @@ int	objects_in_voxel(t_object3d **objects, const int objects_count, const t_voxe
 
 t_voxel	make_initial_voxel(t_object3d **objects, int objects_count)
 {
+	t_point3d	tmp_min_p = objects[0]->get_min_boundary_point(objects[0]->data);
+	t_point3d	tmp_max_p = objects[0]->get_max_boundary_point(objects[0]->data);
+	t_point3d	min_p = tmp_min_p;
+	t_point3d	max_p = tmp_max_p;
+	int			i;
+
 	if (!objects_count)
 		return ((t_voxel){-1, -1, -1, 1, 1, 1});
-
-	t_point3d	min_p = objects[0]->get_min_boundary_point(objects[0]->data);
-	t_point3d	max_p = objects[0]->get_max_boundary_point(objects[0]->data);
-	
-	double		x_min = min_p.x;
-	double		y_min = min_p.y;
-	double		z_min = min_p.z;
-	
-	double		x_max = max_p.x;
-	double		y_max = max_p.y;
-	double		z_max = max_p.z;
-	
-	int			i;
-	for (i = 0; i < objects_count; i++)
+	i = 0;
+	while (++i < objects_count)
 	{
-		min_p = objects[i]->get_min_boundary_point(objects[i]->data);
-		max_p = objects[i]->get_max_boundary_point(objects[i]->data);
-		
-		x_min = (x_min < min_p.x) ? x_min : min_p.x;
-		y_min = (y_min < min_p.y) ? y_min : min_p.y;
-		z_min = (z_min < min_p.z) ? z_min : min_p.z;
-		
-		x_max = (x_max > max_p.x) ? x_max : max_p.x;
-		y_max = (y_max > max_p.y) ? y_max : max_p.y;
-		z_max = (z_max > max_p.z) ? z_max : max_p.z;
+		tmp_min_p = objects[i]->get_min_boundary_point(objects[i]->data);
+		tmp_max_p = objects[i]->get_max_boundary_point(objects[i]->data);
+		min_p.x = min_double(min_p.x, tmp_min_p.x);
+		min_p.y = min_double(min_p.y, tmp_min_p.y);
+		min_p.z = min_double(min_p.z, tmp_min_p.z);
+		max_p.x = max_double(max_p.x, tmp_max_p.x);
+		max_p.y = max_double(max_p.y, tmp_max_p.y);
+		max_p.z = max_double(max_p.z, tmp_max_p.z);
 	}
-
-	return ((t_voxel){x_min - 1, y_min - 1, z_min - 1, x_max + 1, y_max + 1, z_max + 1});
+	return ((t_voxel){min_p.x - 1, min_p.y - 1, min_p.z - 1, max_p.x + 1, max_p.y + 1, max_p.z + 1});
 }
-
 
 bool	object_in_voxel(t_object3d *const obj, const t_voxel v)
 {
-	t_point3d	min_p = obj->get_min_boundary_point(obj->data);
-	t_point3d	max_p = obj->get_max_boundary_point(obj->data);
+	t_point3d	tmp_min_p = obj->get_min_boundary_point(obj->data);
+	t_point3d	tmp_max_p = obj->get_max_boundary_point(obj->data);
 
 	return
-		!((max_p.x < v.x_min)
-		|| (max_p.y < v.y_min)
-		|| (max_p.z < v.z_min)
-		|| (min_p.x > v.x_max)
-		|| (min_p.y > v.y_max)
-		|| (min_p.z > v.z_max));
+		!((tmp_max_p.x < v.x_min)
+		|| (tmp_max_p.y < v.y_min)
+		|| (tmp_max_p.z < v.z_min)
+		|| (tmp_min_p.x > v.x_max)
+		|| (tmp_min_p.y > v.y_max)
+		|| (tmp_min_p.z > v.z_max));
 }
 
 t_KDNode	*make_leaf(t_object3d **objects, int objects_count)
 {
 	t_KDNode	*leaf;
-	
+
 	leaf = malloc(sizeof(t_KDNode));
 	leaf->plane = NONE;
 	leaf->objects_count = objects_count;
 	leaf->l = NULL;
 	leaf->r = NULL;
 	if (objects_count)
-		leaf->objects = (t_object3d **) malloc(objects_count * sizeof(t_object3d *));
+		leaf->objects = (t_object3d **)malloc(objects_count * sizeof(t_object3d *));
 	else
 		leaf->objects = NULL;
 	ft_memcpy(leaf->objects, objects, objects_count * sizeof(t_object3d *));
