@@ -1,10 +1,6 @@
 #ifndef CAMERA_H
 # define CAMERA_H
 
-# ifndef EPSILON
-#  define EPSILON 1e-5
-# endif
-
 # include "point.h"
 # include "vector.h"
 

@@ -28,17 +28,17 @@ void		split_voxel(const t_voxel v, const t_plane p, const t_coord c, t_voxel *co
 
 int			filter_overlapped_objects(t_object3d **objects, const int objects_count, const t_voxel v);
 
-bool		vector_plane_intersection(const t_vector3d vector, const t_point3d vector_start, const t_plane plane, const t_coord coord, t_point3d *const result);
+t_bool		vector_plane_intersection(const t_vector3d vector, const t_point3d vector_start, const t_plane plane, const t_coord coord, t_point3d *const result);
 
-bool		voxel_intersection(const t_vector3d vector, const t_point3d vector_start, const t_voxel v);
+t_bool		voxel_intersection(const t_vector3d vector, const t_point3d vector_start, const t_voxel v);
 
-bool		object_in_voxel(t_object3d *const obj, const t_voxel v);
+t_bool		object_in_voxel(t_object3d *const obj, const t_voxel v);
 
-bool		point_in_voxel(const t_point3d p, const t_voxel v);
+t_bool		point_in_voxel(const t_point3d p, const t_voxel v);
 
-bool		find_intersection_node(t_KDNode *const node, const t_voxel v, const t_point3d vector_start, const t_vector3d vector, t_object3d **const nearest_obj_ptr, t_point3d *const nearest_intersection_point_ptr, double *const nearest_intersection_point_dist_ptr);
+t_bool		find_intersection_node(t_KDNode *const node, const t_voxel v, const t_point3d vector_start, const t_vector3d vector, t_object3d **const nearest_obj_ptr, t_point3d *const nearest_intersection_point_ptr, double *const nearest_intersection_point_dist_ptr);
 
-bool		is_intersect_anything_node(t_KDNode *const node, const t_voxel v, const t_point3d vector_start, const t_vector3d vector);
+t_bool		is_intersect_anything_node(t_KDNode *const node, const t_voxel v, const t_point3d vector_start, const t_vector3d vector);
 
 void		release_kd_node(t_KDNode *node);
 
@@ -46,7 +46,7 @@ void		release_kd_node(t_KDNode *node);
 // Code
 // --------------------------------------------------------------
 
-bool	point_in_voxel(const t_point3d p, const t_voxel v)
+t_bool	point_in_voxel(const t_point3d p, const t_voxel v)
 {
 	return ((p.x > v.x_min) && (p.x < v.x_max) &&
 			(p.y > v.y_min) && (p.y < v.y_max) &&
@@ -326,7 +326,7 @@ t_voxel	make_initial_voxel(t_object3d **objects, int objects_count)
 	int			i;
 
 	if (!objects_count)
-		return ((t_voxel){-1, -1, -1, 1, 1, 1});
+		return ((t_voxel){0, 0, 0, 0, 0, 0});
 	i = 0;
 	while (++i < objects_count)
 	{
@@ -339,10 +339,10 @@ t_voxel	make_initial_voxel(t_object3d **objects, int objects_count)
 		max_p.y = max_double(max_p.y, tmp_max_p.y);
 		max_p.z = max_double(max_p.z, tmp_max_p.z);
 	}
-	return ((t_voxel){min_p.x - 1, min_p.y - 1, min_p.z - 1, max_p.x + 1, max_p.y + 1, max_p.z + 1});
+	return ((t_voxel){min_p.x, min_p.y, min_p.z, max_p.x, max_p.y, max_p.z}); // TODO: check if this is correct
 }
 
-bool	object_in_voxel(t_object3d *const obj, const t_voxel v)
+t_bool	object_in_voxel(t_object3d *const obj, const t_voxel v)
 {
 	t_point3d	tmp_min_p = obj->get_min_boundary_point(obj->data);
 	t_point3d	tmp_max_p = obj->get_max_boundary_point(obj->data);
@@ -373,7 +373,7 @@ t_KDNode	*make_leaf(t_object3d **objects, int objects_count)
 	return (leaf);
 }
 
-bool	vector_plane_intersection(const t_vector3d vector, const t_point3d vector_start, const t_plane plane, const t_coord coord, t_point3d *const result)
+t_bool	vector_plane_intersection(const t_vector3d vector, const t_point3d vector_start, const t_plane plane, const t_coord coord, t_point3d *const result)
 {
 	double	k;
 
@@ -382,7 +382,7 @@ bool	vector_plane_intersection(const t_vector3d vector, const t_point3d vector_s
 		case XY:
 			if (((coord.z < vector_start.z) && (vector.z > 0))
 				|| ((coord.z > vector_start.z) && (vector.z < 0)))
-				return (False);
+				return (FALSE);
 			
 			k = (coord.z - vector_start.z) / vector.z;
 			*result = point3d(vector_start.x + vector.x * k,
@@ -393,7 +393,7 @@ bool	vector_plane_intersection(const t_vector3d vector, const t_point3d vector_s
 		case XZ:
 			if (((coord.y < vector_start.y) && (vector.y > 0))
 			|| ((coord.y > vector_start.y) && (vector.y < 0)))
-				return (False);
+				return (FALSE);
 			
 			k = (coord.y - vector_start.y) / vector.y;
 			*result = point3d(vector_start.x + vector.x * k,
@@ -404,7 +404,7 @@ bool	vector_plane_intersection(const t_vector3d vector, const t_point3d vector_s
 		case YZ:
 			if (((coord.x < vector_start.x) && (vector.x > 0))
 			|| ((coord.x > vector_start.x) && (vector.x < 0)))
-				return (False);
+				return (FALSE);
 			
 			k = (coord.x - vector_start.x) / vector.x;
 			*result = point3d(coord.x,
@@ -415,13 +415,13 @@ bool	vector_plane_intersection(const t_vector3d vector, const t_point3d vector_s
 			break ;
 	}
 	
-	return (True);
+	return (TRUE);
 }
 
-bool	voxel_intersection(const t_vector3d vector, const t_point3d vector_start, const t_voxel v)
+t_bool	voxel_intersection(const t_vector3d vector, const t_point3d vector_start, const t_voxel v)
 {
 	if (point_in_voxel(vector_start, v))
-		return (True);
+		return (TRUE);
 	
 	t_point3d	p;
 	t_coord		c;
@@ -431,7 +431,7 @@ bool	voxel_intersection(const t_vector3d vector, const t_point3d vector_start, c
 		&& (p.x > v.x_min) && (p.x < v.x_max)
 		&& (p.y > v.y_min) && (p.y < v.y_max))
 	{
-		return (True);
+		return (TRUE);
 	}
 	
 	c.z = v.z_max;
@@ -439,7 +439,7 @@ bool	voxel_intersection(const t_vector3d vector, const t_point3d vector_start, c
 		&& (p.x > v.x_min) && (p.x < v.x_max)
 		&& (p.y > v.y_min) && (p.y < v.y_max))
 	{
-		return (True);
+		return (TRUE);
 	}
 	
 	c.y = v.y_min;
@@ -447,7 +447,7 @@ bool	voxel_intersection(const t_vector3d vector, const t_point3d vector_start, c
 		&& (p.x > v.x_min) && (p.x < v.x_max)
 		&& (p.z > v.z_min) && (p.z < v.z_max))
 	{
-		return (True);
+		return (TRUE);
 	}
 	
 	c.y = v.y_max;
@@ -455,7 +455,7 @@ bool	voxel_intersection(const t_vector3d vector, const t_point3d vector_start, c
 		&& (p.x > v.x_min) && (p.x < v.x_max)
 		&& (p.z > v.z_min) && (p.z < v.z_max))
 	{
-		return (True);
+		return (TRUE);
 	}
 	
 	c.x = v.x_min;
@@ -463,7 +463,7 @@ bool	voxel_intersection(const t_vector3d vector, const t_point3d vector_start, c
 		&& (p.y > v.y_min) && (p.y < v.y_max)
 		&& (p.z > v.z_min) && (p.z < v.z_max))
 	{
-		return (True);
+		return (TRUE);
 	}
 	
 	c.x = v.x_max;
@@ -471,19 +471,19 @@ bool	voxel_intersection(const t_vector3d vector, const t_point3d vector_start, c
 		&& (p.y > v.y_min) && (p.y < v.y_max)
 		&& (p.z > v.z_min) && (p.z < v.z_max))
 	{
-		return (True);
+		return (TRUE);
 	}
 	
-	return (False);
+	return (FALSE);
 }
 
-bool	find_intersection_tree(t_KDTree *const tree, const t_point3d vector_start, const t_vector3d vector, t_object3d **const nearest_obj_ptr, t_point3d *const nearest_intersection_point_ptr, double *const nearest_intersection_point_dist_ptr)
+t_bool	find_intersection_tree(t_KDTree *const tree, const t_point3d vector_start, const t_vector3d vector, t_object3d **const nearest_obj_ptr, t_point3d *const nearest_intersection_point_ptr, double *const nearest_intersection_point_dist_ptr)
 {
 	return (voxel_intersection(vector, vector_start, tree->bounding_box)
 			&& find_intersection_node(tree->root, tree->bounding_box, vector_start, vector, nearest_obj_ptr, nearest_intersection_point_ptr, nearest_intersection_point_dist_ptr));
 }
 
-bool	find_intersection_node(t_KDNode *const node, const t_voxel v, const t_point3d vector_start, const t_vector3d vector, t_object3d **const nearest_obj_ptr, t_point3d *const nearest_intersection_point_ptr, double *const nearest_intersection_point_dist_ptr)
+t_bool	find_intersection_node(t_KDNode *const node, const t_voxel v, const t_point3d vector_start, const t_vector3d vector, t_object3d **const nearest_obj_ptr, t_point3d *const nearest_intersection_point_ptr, double *const nearest_intersection_point_dist_ptr)
 {
 	// Is leaf
 	if (node->plane == NONE)
@@ -500,7 +500,7 @@ bool	find_intersection_node(t_KDNode *const node, const t_voxel v, const t_point
 			t_point3d	nearest_intersection_point;
 			double	sqr_nearest_dist;
 			
-			int intersected = False;
+			int intersected = FALSE;
 			
 			// Finding nearest object
 			// and intersection point
@@ -520,7 +520,7 @@ bool	find_intersection_node(t_KDNode *const node, const t_voxel v, const t_point
 							nearest_obj = obj;
 							nearest_intersection_point = intersection_point;
 							sqr_nearest_dist = sqr_curr_dist;
-							intersected = True;
+							intersected = TRUE;
 						}
 					}
 				}
@@ -539,7 +539,7 @@ bool	find_intersection_node(t_KDNode *const node, const t_voxel v, const t_point
 			
 			return (intersected);
 		}
-		return (False);
+		return (FALSE);
 	}
 
 	// Otherwise
@@ -606,7 +606,7 @@ bool	find_intersection_node(t_KDNode *const node, const t_voxel v, const t_point
 	
 	if (voxel_intersection(vector, vector_start, front_voxel)
 		&& find_intersection_node(front_node, front_voxel, vector_start, vector, nearest_obj_ptr, nearest_intersection_point_ptr, nearest_intersection_point_dist_ptr))
-		return (True);
+		return (TRUE);
 			
 	return (voxel_intersection(vector, vector_start, back_voxel)
 		&& find_intersection_node(back_node, back_voxel, vector_start, vector, nearest_obj_ptr, nearest_intersection_point_ptr, nearest_intersection_point_dist_ptr));

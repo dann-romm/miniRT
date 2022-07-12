@@ -12,8 +12,20 @@ OBJDIR				= ./build
 INCDIR				= ./includes
 LIBRENDERDIR		= ./librender
 
+SPHERE_SRCDIR		= $(SRCDIR)/sphere
+
+UTILS_MATH_SRCDIR	= $(SRCDIR)/utils_math
+
 # source files
-SRC					=	$(SRCDIR)/main.c
+SPHERE_SRC			=	$(SPHERE_SRCDIR)/sphere.c \
+						$(SPHERE_SRCDIR)/sphere_get_funcs.c \
+						$(SPHERE_SRCDIR)/sphere_intersect.c
+
+UTILS_MATH_SRC		=	$(UTILS_MATH_SRCDIR)/utils_math.c
+
+SRC					=	$(SRCDIR)/main.c \
+						$(SPHERE_SRC) \
+						$(UTILS_MATH_SRC)
 
 # object files and dependency files
 OBJ					= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))

@@ -1,6 +1,10 @@
 #ifndef POINT_H
 # define POINT_H
 
+# ifndef EPSILON
+#  define EPSILON 1e-5
+# endif
+
 typedef struct s_point3d
 {
 	double	x;

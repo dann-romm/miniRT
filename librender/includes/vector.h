@@ -13,6 +13,8 @@ typedef struct s_vector3d
 t_vector3d	vector3dp(const t_point3d start_point, const t_point3d end_point);
 t_vector3d	vector3df(const double x, const double y, const double z);
 
+t_vector3d	multiply_vector(const t_vector3d vector, const double factor);
+
 t_vector3d	cross_product(const t_vector3d v1, const t_vector3d v2);
 double		dot_product(const t_vector3d v1, const t_vector3d v2);
 double		sqr_module_vector(const t_vector3d v);

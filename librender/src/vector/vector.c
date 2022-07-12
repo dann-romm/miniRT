@@ -19,3 +19,13 @@ t_vector3d	vector3df(const double x, const double y, const double z)
 	v.z = z;
 	return (v);
 }
+
+t_vector3d	multiply_vector(const t_vector3d vector, const double factor)
+{
+	t_vector3d	v;
+
+	v.x = vector.x * factor;
+	v.y = vector.y * factor;
+	v.z = vector.z * factor;
+	return (v);
+}

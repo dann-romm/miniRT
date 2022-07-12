@@ -5,9 +5,9 @@
 # include "point.h"
 # include "vector.h"
 
-typedef int bool;
-# define True 1
-# define False 0
+typedef int	t_bool;
+# define TRUE 1
+# define FALSE 0
 
 typedef struct s_light_source3d
 {
@@ -33,7 +33,7 @@ typedef struct s_object3d
 {
 	void		*data;
 	//
-	bool		(*intersect)(const void *data, const t_point3d vector_start, const t_vector3d vector, t_point3d *intersection_point);
+	t_bool		(*intersect)(const void *data, const t_point3d vector_start, const t_vector3d vector, t_point3d *intersection_point);
 	//
 	t_color		(*get_color)(const void *data, const t_point3d intersection_point);
 	//

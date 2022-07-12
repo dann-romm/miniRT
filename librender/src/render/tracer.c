@@ -21,7 +21,7 @@ t_color	trace_recursively(
 	const double intensity,
 	const int recursion_level);
 
-bool	is_viewable(
+t_bool	is_viewable(
 	const t_point3d target_point,
 	const t_point3d starting_point,
 	const t_scene *const scene);
@@ -237,7 +237,7 @@ t_color	get_specular_color(const t_point3d point, const t_vector3d reflected_ray
 	return (light_color);
 }
 
-bool	is_viewable(const t_point3d target_point, const t_point3d starting_point, const t_scene *const scene)
+t_bool	is_viewable(const t_point3d target_point, const t_point3d starting_point, const t_scene *const scene)
 {
 	const t_vector3d	ray = vector3dp(starting_point, target_point);
 	const double		target_dist = module_vector(ray);
