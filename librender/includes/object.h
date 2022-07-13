@@ -4,10 +4,7 @@
 # include "color.h"
 # include "point.h"
 # include "vector.h"
-
-typedef int	t_bool;
-# define TRUE 1
-# define FALSE 0
+# include "bool.h"
 
 typedef struct s_light_source3d
 {

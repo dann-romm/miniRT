@@ -4,6 +4,7 @@
 # include "object.h"
 # include "point.h"
 # include "vector.h"
+# include "bool.h"
 
 typedef enum e_plane
 {

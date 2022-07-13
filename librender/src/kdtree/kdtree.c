@@ -1,15 +1,15 @@
-#include <stdlib.h>
-#include <math.h>
-#include "kdtree.h"
-#include "utils_ft.h"
-#include "utils_math.h"
+# include <stdlib.h>
+# include <math.h>
+# include "kdtree.h"
+# include "utils_ft.h"
+# include "utils_math.h"
 
-#define MAX_TREE_DEPTH 20
-#define OBJECTS_IN_LEAF 1
+# define MAX_TREE_DEPTH 20
+# define OBJECTS_IN_LEAF 1
 
-//#define MAX_SPLITS_OF_VOXEL 100
-#define MAX_SPLITS_OF_VOXEL 5
-#define SPLIT_COST 5
+//# define MAX_SPLITS_OF_VOXEL 100
+# define MAX_SPLITS_OF_VOXEL 5
+# define SPLIT_COST 5
 
 // Declarations
 // --------------------------------------------------------------
