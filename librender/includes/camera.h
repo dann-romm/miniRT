@@ -24,7 +24,10 @@ typedef struct s_camera
 }	t_camera;
 
 // initialize camera with given position, angles and projection plane distance
-t_camera	*new_camera(const t_point3d camera_position, const double al_x, const double al_y, const double al_z, const double proj_plane_dist);
+t_camera	*new_camera(const t_point3d camera_position, t_vector3d vector, const double proj_plane_dist);
+
+// rotate camera to where the vector is looking
+void		rotate_camera_collinear_to_vector(t_camera *camera, const t_vector3d vector);
 
 // release memory allocated for camera
 void		release_camera(t_camera *const cam);

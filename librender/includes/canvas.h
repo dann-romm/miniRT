@@ -25,7 +25,7 @@ void		set_pixel(int x, int y, t_color c, t_canvas *canv);
 // get pixel color on given coordinates
 t_color		get_pixel(int x, int y, t_canvas *canv);
 
-// // convert all canvas to grascape colors
+// // convert all canvas to grayscape colors
 // t_canvas	*grayscale_canvas(t_canvas *base, int num_threads);
 
 // detect edges on given canvas

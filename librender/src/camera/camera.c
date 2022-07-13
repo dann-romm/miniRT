@@ -2,23 +2,16 @@
 #include <math.h>
 #include "camera.h"
 
-t_camera	*new_camera(const t_point3d camera_position, const double al_x, const double al_y, const double al_z, const double proj_plane_dist)
+t_camera	*new_camera(const t_point3d camera_position, t_vector3d vector, const double proj_plane_dist)
 {
 	t_camera	*cam;
 
 	cam = malloc(sizeof(t_camera));
-	if (cam == NULL)
-		return (NULL);
 	cam->camera_position = camera_position;
-	cam->al_x = al_x;
-	cam->sin_al_x = sin(al_x);
-	cam->cos_al_x = cos(al_x);
-	cam->al_y = al_y;
-	cam->sin_al_y = sin(al_y);
-	cam->cos_al_y = cos(al_y);
-	cam->al_z = al_z;
-	cam->sin_al_z = sin(al_z);
-	cam->cos_al_z = cos(al_z);
+	cam->al_x = 0;
+	cam->al_y = 0;
+	cam->al_z = 0;
+	rotate_camera_collinear_to_vector(cam, vector);
 	cam->proj_plane_dist = proj_plane_dist;
 	return (cam);
 }
@@ -26,6 +19,13 @@ t_camera	*new_camera(const t_point3d camera_position, const double al_x, const d
 void	release_camera(t_camera *const cam)
 {
 	free(cam);
+}
+
+void	rotate_camera_collinear_to_vector(t_camera *camera,
+	const t_vector3d vector)
+{
+	rotate_camera(camera, atan2(vector.y, vector.z),
+		atan2(vector.x, vector.z), atan2(vector.x, vector.y));
 }
 
 void	rotate_camera(t_camera *const cam, const double al_x,
