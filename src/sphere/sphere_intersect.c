@@ -2,49 +2,31 @@
 #include "objects/sphere.h"
 #include "utils_math.h"
 
-t_bool	intersect_sphere(const void *data, const t_point3d vector_start, const t_vector3d vector, t_point3d *intersection_point)
+t_bool	intersect_sphere(const void *data, const t_point3d vector_start,
+	const t_vector3d vector, t_point3d *intersection_point)
 {
-	t_sphere	*sphere;
+	const t_sphere		*sphere = (t_sphere *)data;
+	const t_vector3d	v = vector3dp(sphere->center, vector_start);
+	double				x1;
+	double				x2;
+	t_bool				is_solved;
 
-	sphere = (t_sphere *)data;
-
-	t_vector3d	oc = vector3dp(sphere->center, vector_start);
-
-	double	a = dot_product(vector, vector);
-	double	b = 2 * dot_product(vector, oc);
-	double	c = dot_product(oc, oc) - (sphere->radius * sphere->radius);
-
-	double	x1 = nan(0);
-	double	x2 = nan(0);
-
-	solve_quadratic(a, b, c, &x1, &x2);
-
-	if isnan(x1)
+	is_solved = solve_quadratic(dot_product(vector, vector),
+			2 * dot_product(vector, v),
+			dot_product(v, v) - (sphere->radius * sphere->radius), &x1, &x2);
+	if (!is_solved)
 		return (FALSE);
-
-	double	min_t;
-	double	max_t;
-
-	if (x1 < x2)
+	if (x1 > x2)
 	{
-		min_t = x1;
-		max_t = x2;
+		x1 += x2;
+		x2 = x1 - x2;
+		x1 -= x2;
 	}
-	else
-	{
-		min_t = x2;
-		max_t = x1;
-	}
-
-	double t;
-	if (min_t > EPSILON)
-		t = min_t;
-	else
-		t = max_t;
-
-	if (t < EPSILON)
+	if (x1 <= EPSILON)
+		x1 = x2;
+	if (x1 < EPSILON)
 		return (FALSE);
-	
-	*intersection_point = point3d(vector_start.x + vector.x * t, vector_start.y + vector.y * t, vector_start.z + vector.z * t);
+	*intersection_point = point3d(vector_start.x + vector.x * x1,
+			vector_start.y + vector.y * x1, vector_start.z + vector.z * x1);
 	return (TRUE);
 }
