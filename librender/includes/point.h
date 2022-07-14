@@ -1,9 +1,19 @@
 #ifndef POINT_H
 # define POINT_H
 
+# include <math.h>
+
 # ifndef EPSILON
 #  define EPSILON 1e-5
 # endif
+
+// TODO: think about using defines instead of functions
+// # define point3d(x, y, z) (t_point3d){x, y, z}
+// # define point3dp(p, v) (t_point3d){p.x + v.x, p.y + v.y, p.z + v.z}
+// # define point2d(x, y) (t_point2d){x, y}
+
+# define POSITIVE_INFINITY_POINT3D (t_point3d){INFINITY, INFINITY, INFINITY}
+# define NEGATIVE_INFINITY_POINT3D (t_point3d){-INFINITY, -INFINITY, -INFINITY}
 
 typedef struct s_point3d
 {
