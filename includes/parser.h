@@ -1,16 +1,18 @@
 #ifndef PARSER_H
 # define PARSER_H
 
-# include <fcntl.h>
-# include "utils_ft.h"
+# include "scene.h"
 # include "camera.h"
-# include "point.h"
-# include "utils_math.h"
+# include "canvas.h"
+
+int		parse_map(char *filename);
 
 int		parse_next_double(char *line, int i, double *result);
+int		parse_next_int(char *line, int i, int *result);
+int		parse_next_point(char *line, int i, t_point3d *point);
+
+// void	parse_camera(char *line, int i, t_camera **camera);
 void	parse_camera(char *line, int i);
-int		init_camera_position(t_point3d	*camera_position, char *line, int i);
-void	parse_camera(char *line, int i);
-void 	parse_ambient_lightning(char *line, int i); // not written yet
+void	parse_ambient_lightning(char *line, int i); // not written yet
 
 #endif

@@ -8,4 +8,8 @@
 // if the solution is real, it stores the two solutions in x1 and x2
 t_bool	solve_quadratic(double a, double b, double c, double *x1, double *x2);
 
+// convert FOV to distance to projection plane
+// given FOV in degrees and screen size
+double	fov_to_proj_plane_dist(const double fov, double canvas_width);
+
 #endif

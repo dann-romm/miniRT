@@ -1,11 +1,8 @@
+# include <fcntl.h>
 #include <stdio.h>
-#include "parser.h"
+#include "utils_ft.h"
 #include "get_next_line.h"
-
-int	parse_next_double(char *line, int i, double *result)
-{
-	return (ft_atof(&line[i], result));
-}
+#include "parser.h"
 
 void	parse_element(char *line)
 {
@@ -20,13 +17,13 @@ void	parse_element(char *line)
 	else if (ft_strncmp(&line[i], "C", 1) == 0)
 		parse_camera(line, i + 1);
 	else if (ft_strncmp(&line[i], "L", 1) == 0)
-		parse_camera(line, i);
+		parse_camera(line, i + 1);
 	else if (ft_strncmp(&line[i], "sp", 2) == 0)
 		parse_camera(line, i + 2);
 	else if (ft_strncmp(&line[i], "pl", 2) == 0)
-		parse_camera(line, i);
+		parse_camera(line, i + 2);
 	else if (ft_strncmp(&line[i], "cy", 2) == 0)
-		parse_camera(line, i);
+		parse_camera(line, i + 2);
 }
 
 int	parse_map(char *filename)
@@ -48,18 +45,5 @@ int	parse_map(char *filename)
 		line = get_next_line(fd);
 	}
 	close(fd);
-	return (0);
-}
-
-int	main()
-{
-	int	err;
-
-	err = parse_map("/Users/zaira/Desktop/miniRT/scene_test.rt");
-	if (err != 0)
-	{
-		perror("parsing map");
-		return (-1);
-	}
 	return (0);
 }
