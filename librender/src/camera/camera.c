@@ -1,12 +1,14 @@
 #include <stdlib.h>
 #include <math.h>
 #include "camera.h"
+#include <stdio.h> // delete
 
 t_camera	*new_camera(const t_point3d camera_position, t_vector3d vector, const double proj_plane_dist)
 {
 	t_camera	*cam;
 
 	cam = malloc(sizeof(t_camera));
+	//printf("x = %.1f, y = %.1f, z = %.1f\n", camera_position.x, camera_position.y, camera_position.z);
 	cam->camera_position = camera_position;
 	cam->al_x = 0;
 	cam->al_y = 0;

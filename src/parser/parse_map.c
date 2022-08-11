@@ -1,5 +1,5 @@
-# include <fcntl.h>
-#include <stdio.h>
+#include <fcntl.h>
+#include <stdio.h> // delete
 #include "utils_ft.h"
 #include "get_next_line.h"
 #include "parser.h"
@@ -17,14 +17,15 @@ void	parse_element(char *line)
 	else if (ft_strncmp(&line[i], "C", 1) == 0)
 		parse_camera(line, i + 1);
 	else if (ft_strncmp(&line[i], "L", 1) == 0)
-		parse_camera(line, i + 1);
+		parse_light(line, i + 1);
 	else if (ft_strncmp(&line[i], "sp", 2) == 0)
-		parse_camera(line, i + 2);
+		parse_sphere(line, i + 2);
 	else if (ft_strncmp(&line[i], "pl", 2) == 0)
 		parse_camera(line, i + 2);
 	else if (ft_strncmp(&line[i], "cy", 2) == 0)
 		parse_camera(line, i + 2);
 }
+
 
 int	parse_map(char *filename)
 {
