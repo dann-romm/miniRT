@@ -1,4 +1,5 @@
 #include "render.h"
+#include <stdio.h>
 
 #define ANTIALIASING 1
 
@@ -16,15 +17,15 @@ void	render_scene(const t_scene *const scene, const t_camera *const camera, t_ca
 
 	// TODO: consider possibility to define these OpenMP parameters
 	// in declarative style (using directives of preprocessor)
-	
+	double divisor = canvas->w * sqrt(3) / focus;
 	i = 0;
 	while (i < canvas->w)
 	{
 		j = 0;
 		while (j < canvas->h)
 		{
-			x = i - dx;
-			y = j - dy;
+			x = (i - dx) / divisor;
+			y = (j - dy) / divisor;
 			ray = vector3df(x, y, focus);
 			col = trace(scene, camera, ray);
 			set_pixel(i, j, col, canvas);

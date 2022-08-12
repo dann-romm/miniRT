@@ -1,6 +1,6 @@
 CC					= gcc
 RM					= rm -rf
-CFLAGS				= -Ofast -MMD
+CFLAGS				= -O2 -MMD
 
 # program's name
 NAME				= librender.a
@@ -28,7 +28,8 @@ CANVAS_SRC			=	$(CANVAS_SRCDIR)/canvas.c
 
 COLOR_SRC			=	$(COLOR_SRCDIR)/color.c
 
-KDTREE_SRC			=	$(KDTREE_SRCDIR)/kdtree.c
+KDTREE_SRC			=	$(KDTREE_SRCDIR)/kdtree.c \
+						$(KDTREE_SRCDIR)/voxel.c
 
 POINT_SRC			=	$(POINT_SRCDIR)/point.c \
 						$(POINT_SRCDIR)/rotate_point.c
@@ -50,7 +51,8 @@ UTILS_MATH_SRC		=	$(UTILS_MATH_SRCDIR)/utils_double.c
 VECTOR_SRC			=	$(VECTOR_SRCDIR)/vector.c \
 						$(VECTOR_SRCDIR)/vector_product.c \
 						$(VECTOR_SRCDIR)/vector_utils.c \
-						$(VECTOR_SRCDIR)/rotate_vector.c
+						$(VECTOR_SRCDIR)/rotate_vector.c \
+						$(VECTOR_SRCDIR)/matrix.c
 
 SRC					=	$(CAMERA_SRC) \
 						$(CANVAS_SRC) \

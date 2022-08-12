@@ -6,13 +6,13 @@
 # include "vector.h"
 # include "bool.h"
 
-typedef enum e_plane
+typedef enum e_coord_plane
 {
 	NONE,
 	XY,
 	XZ,
 	YZ
-}	t_plane;
+}	t_coord_plane;
 
 typedef union u_coord
 {
@@ -33,7 +33,7 @@ typedef struct s_voxel
 
 typedef struct s_KDNode
 {
-	t_plane			plane;
+	t_coord_plane			plane;
 	t_coord			coord;
 	t_object3d		**objects;
 	int				objects_count;

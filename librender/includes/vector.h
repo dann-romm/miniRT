@@ -22,9 +22,14 @@ double		module_vector(const t_vector3d v);
 double		cos_vectors(const t_vector3d v1, const t_vector3d v2);
 void		normalize_vector(t_vector3d *const v);
 
-// TODO: use matrixes
-t_vector3d	rotate_vector_x(const t_vector3d p, const double sin_al, const double cos_al);
-t_vector3d	rotate_vector_y(const t_vector3d p, const double sin_al, const double cos_al);
-t_vector3d	rotate_vector_z(const t_vector3d p, const double sin_al, const double cos_al);
+typedef struct s_matrix {
+	double	m[3][3];
+}	t_rot_matrix;
+
+t_vector3d	rotate_vector_by_matrix(const t_vector3d p, const t_rot_matrix m);
+void		axis_angle_to_matrix(t_vector3d axis, double angle, t_rot_matrix *matrix);
+void		direction_vector_to_matrix(t_vector3d direction, t_rot_matrix *matrix);
+
+void	multiply_matrix(t_rot_matrix *const m1, t_rot_matrix *const m2, t_rot_matrix *const res);
 
 #endif

@@ -6,21 +6,9 @@
 
 typedef struct s_camera
 {
-	t_point3d	camera_position;
-
-	double		al_x;
-	double		sin_al_x;
-	double		cos_al_x;
-
-	double		al_y;
-	double		sin_al_y;
-	double		cos_al_y;
-
-	double		al_z;
-	double		sin_al_z;
-	double		cos_al_z;
-
-	double		proj_plane_dist;
+	t_point3d		camera_position;
+	t_rot_matrix	rotation_matrix;
+	double			proj_plane_dist;
 }	t_camera;
 
 // initialize camera with given position, angles and projection plane distance

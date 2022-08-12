@@ -2,6 +2,8 @@
 #include "objects/sphere.h"
 #include "utils_math.h"
 
+#include <stdio.h>
+
 t_bool	intersect_sphere(const void *data, const t_point3d vector_start,
 	const t_vector3d vector, t_point3d *intersection_point)
 {

@@ -1,17 +1,19 @@
 CC					= gcc
 RM					= rm -rf
-CFLAGS				= -Ofast -MMD
+CFLAGS				= -O2 -MMD
 
 # program's name
 NAME				= miniRT
-LIBRENDERNAME		= librender.a
+RENDERNAME			= librender.a
+MLXNAME				= libmlx.dylib
 TESTNAME			= test
 
 # directories
 SRCDIR				= ./src
 OBJDIR				= ./build
 INCDIR				= ./includes
-LIBRENDERDIR		= ./librender
+RENDERDIR			= ./librender
+MLXDIR				= ./mlx
 
 CYLINDER_SRCDIR		= $(SRCDIR)/cylinder
 GNL_SRCDIR			= $(SRCDIR)/get_next_line
@@ -62,30 +64,37 @@ DEP					= $(OBJ:.o=.d)
 # build rules
 all: $(NAME)
 
-$(NAME): $(OBJ) $(OBJDIR)/main.o
-	make -C $(LIBRENDERDIR)
-	cp $(LIBRENDERDIR)/$(LIBRENDERNAME) ./$(LIBRENDERNAME)
-	$(CC) $(CFLAGS) $(OBJ) $(OBJDIR)/main.o -o $(NAME) -L./ -lrender
+$(NAME): $(OBJ) $(OBJDIR)/main.o $(RENDERNAME) $(MLXNAME)
+	$(CC) $(CFLAGS) $(OBJ) $(OBJDIR)/main.o -o $(NAME) -L./ -lrender -lmlx
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.c Makefile
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c $< -o $@ -I$(INCDIR) -I$(LIBRENDERDIR)/includes
+	$(CC) $(CFLAGS) -c $< -o $@ -I$(INCDIR) -I$(RENDERDIR)/includes -I$(MLXDIR)
+
+$(RENDERNAME):
+	make -C $(RENDERDIR)
+	cp $(RENDERDIR)/$(RENDERNAME) ./$(RENDERNAME)
+
+$(MLXNAME):
+	make -C $(MLXDIR)
+	cp $(MLXDIR)/$(MLXNAME) ./$(MLXNAME)
 
 clean:
-	make clean -C $(LIBRENDERDIR)
+	make clean -C $(RENDERDIR)
+	make clean -C $(MLXDIR)
 	$(RM) $(OBJDIR)
 
 fclean: clean
-	make fclean -C $(LIBRENDERDIR)
+	make fclean -C $(RENDERDIR)
 	$(RM) $(NAME)
-	$(RM) $(LIBRENDERNAME)
+	$(RM) $(RENDERNAME)
 	$(RM) $(TESTNAME)
 
 re: fclean all
 
 $(TESTNAME): $(OBJ) $(OBJDIR)/test.o
-	make -C $(LIBRENDERDIR)
-	cp $(LIBRENDERDIR)/$(LIBRENDERNAME) ./$(LIBRENDERNAME)
+	make -C $(RENDERDIR)
+	cp $(RENDERDIR)/$(RENDERNAME) ./$(RENDERNAME)
 	$(CC) $(CFLAGS) $(OBJ) $(OBJDIR)/test.o -o $(TESTNAME) -L./ -lrender
 
 # include dependencies

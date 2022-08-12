@@ -4,6 +4,8 @@
 # include "utils_ft.h"
 # include "utils_math.h"
 
+# include <stdio.h>
+
 # define MAX_TREE_DEPTH 20
 # define OBJECTS_IN_LEAF 1
 
@@ -20,15 +22,15 @@ t_KDNode	*rec_build(t_object3d **objects, int objects_count, t_voxel v, int iter
 
 t_KDNode	*make_leaf(t_object3d **objects, int objects_count);
 
-void		find_plane(t_object3d **objects, const int objects_count, const t_voxel v, const int tree_depth, t_plane *const p, t_coord *const c);
+void		find_plane(t_object3d **objects, const int objects_count, const t_voxel v, const int tree_depth, t_coord_plane *const p, t_coord *const c);
 
 int			objects_in_voxel(t_object3d **objects, const int objects_count, const t_voxel v);
 
-void		split_voxel(const t_voxel v, const t_plane p, const t_coord c, t_voxel *const vl, t_voxel *const vr);
+void		split_voxel(const t_voxel v, const t_coord_plane p, const t_coord c, t_voxel *const vl, t_voxel *const vr);
 
 int			filter_overlapped_objects(t_object3d **objects, const int objects_count, const t_voxel v);
 
-t_bool		vector_plane_intersection(const t_vector3d vector, const t_point3d vector_start, const t_plane plane, const t_coord coord, t_point3d *const result);
+t_bool		vector_plane_intersection(const t_vector3d vector, const t_point3d vector_start, const t_coord_plane plane, const t_coord coord, t_point3d *const result);
 
 t_bool		voxel_intersection(const t_vector3d vector, const t_point3d vector_start, const t_voxel v);
 
@@ -48,9 +50,9 @@ void		release_kd_node(t_KDNode *node);
 
 t_bool	point_in_voxel(const t_point3d p, const t_voxel v)
 {
-	return ((p.x > v.x_min) && (p.x < v.x_max) &&
-			(p.y > v.y_min) && (p.y < v.y_max) &&
-			(p.z > v.z_min) && (p.z < v.z_max));
+	return ((p.x >= v.x_min) && (p.x <= v.x_max) &&
+			(p.y >= v.y_min) && (p.y <= v.y_max) &&
+			(p.z >= v.z_min) && (p.z <= v.z_max));
 }
 
 
@@ -83,7 +85,7 @@ t_KDTree	*build_kd_tree(t_object3d **objects, int objects_count)
 
 t_KDNode	*rec_build(t_object3d **objects, int objects_count, t_voxel v, int iter)
 {
-	t_plane		p;
+	t_coord_plane		p;
 	t_coord		c;
 	t_voxel		vl;
 	t_voxel		vr;
@@ -141,7 +143,7 @@ int	filter_overlapped_objects(t_object3d **objects, const int objects_count, con
 	return (i);
 }
 
-void	split_voxel(const t_voxel v, const t_plane p, const t_coord c, t_voxel *const vl, t_voxel *const vr)
+void	split_voxel(const t_voxel v, const t_coord_plane p, const t_coord c, t_voxel *const vl, t_voxel *const vr)
 {
 	*vl = v;
 	*vr = v;
@@ -177,7 +179,7 @@ void	split_voxel(const t_voxel v, const t_plane p, const t_coord c, t_voxel *con
 *
 * see: http://stackoverflow.com/a/4633332/653511
 */
-void	find_plane(t_object3d ** objects, const int objects_count, const t_voxel v, const int tree_depth, t_plane *const p, t_coord *const c)
+void	find_plane(t_object3d ** objects, const int objects_count, const t_voxel v, const int tree_depth, t_coord_plane *const p, t_coord *const c)
 {
 	const double	hx = v.x_max - v.x_min;
 	const double	hy = v.y_max - v.y_min;
@@ -319,14 +321,15 @@ int	objects_in_voxel(t_object3d **objects, const int objects_count, const t_voxe
 
 t_voxel	make_initial_voxel(t_object3d **objects, int objects_count)
 {
+	if (!objects_count)
+		return ((t_voxel){0, 0, 0, 0, 0, 0});
+
 	t_point3d	tmp_min_p = objects[0]->get_min_boundary_point(objects[0]->data);
 	t_point3d	tmp_max_p = objects[0]->get_max_boundary_point(objects[0]->data);
 	t_point3d	min_p = tmp_min_p;
 	t_point3d	max_p = tmp_max_p;
 	int			i;
 
-	if (!objects_count)
-		return ((t_voxel){0, 0, 0, 0, 0, 0});
 	i = 0;
 	while (++i < objects_count)
 	{
@@ -366,14 +369,16 @@ t_KDNode	*make_leaf(t_object3d **objects, int objects_count)
 	leaf->l = NULL;
 	leaf->r = NULL;
 	if (objects_count)
+	{
 		leaf->objects = (t_object3d **)malloc(objects_count * sizeof(t_object3d *));
+		ft_memcpy(leaf->objects, objects, objects_count * sizeof(t_object3d *));
+	}
 	else
 		leaf->objects = NULL;
-	ft_memcpy(leaf->objects, objects, objects_count * sizeof(t_object3d *));
 	return (leaf);
 }
 
-t_bool	vector_plane_intersection(const t_vector3d vector, const t_point3d vector_start, const t_plane plane, const t_coord coord, t_point3d *const result)
+t_bool	vector_plane_intersection(const t_vector3d vector, const t_point3d vector_start, const t_coord_plane plane, const t_coord coord, t_point3d *const result)
 {
 	double	k;
 

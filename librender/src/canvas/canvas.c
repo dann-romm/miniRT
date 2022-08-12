@@ -10,7 +10,7 @@ t_canvas	*new_canvas(int width, int height)
 	c = (t_canvas *) malloc(sizeof(t_canvas));
 	c->w = width;
 	c->h = height;
-	c->data = (t_color *) ft_calloc(width * height + 1, sizeof(t_color));
+	c->data = (t_color *) ft_calloc(width * height + 1, sizeof(t_color)); // +1 to avoid segfault when accessing out of bounds
 	return (c);
 }
 

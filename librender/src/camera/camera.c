@@ -1,19 +1,21 @@
 #include <stdlib.h>
 #include <math.h>
 #include "camera.h"
+#include <stdio.h>
 
 t_camera	*new_camera(const t_point3d camera_position, t_vector3d vector, const double proj_plane_dist)
 {
-	t_camera	*cam;
+	t_camera	*camera;
 
-	cam = malloc(sizeof(t_camera));
-	cam->camera_position = camera_position;
-	cam->al_x = 0;
-	cam->al_y = 0;
-	cam->al_z = 0;
-	rotate_camera_collinear_to_vector(cam, vector);
-	cam->proj_plane_dist = proj_plane_dist;
-	return (cam);
+	camera = malloc(sizeof(t_camera));
+	camera->camera_position = camera_position;
+
+	normalize_vector(&vector);
+	dprintf(2, "direction vector: %f %f %f\n", vector.x, vector.y, vector.z);
+	direction_vector_to_matrix(vector, &(camera->rotation_matrix));
+
+	camera->proj_plane_dist = proj_plane_dist;
+	return (camera);
 }
 
 void	release_camera(t_camera *const cam)
@@ -21,44 +23,18 @@ void	release_camera(t_camera *const cam)
 	free(cam);
 }
 
-void	rotate_camera_collinear_to_vector(t_camera *camera,
-	const t_vector3d vector)
-{
-	rotate_camera(camera, atan2(vector.y, vector.z),
-		atan2(vector.x, vector.z), atan2(vector.x, vector.y));
-}
-
 void	rotate_camera(t_camera *const cam, const double al_x,
 	const double al_y, const double al_z)
 {
-	if (fabs(al_x) > EPSILON)
-	{
-		cam->al_x += al_x;
-		cam->sin_al_x = sin(cam->al_x);
-		cam->cos_al_x = cos(cam->al_x);
-	}
-	if (fabs(al_y) > EPSILON)
-	{
-		cam->al_y += al_y;
-		cam->sin_al_y = sin(cam->al_y);
-		cam->cos_al_y = cos(cam->al_y);
-	}
-	if (fabs(al_z) > EPSILON)
-	{
-		cam->al_z += al_z;
-		cam->sin_al_z = sin(cam->al_z);
-		cam->cos_al_z = cos(cam->al_z);
-	}
+	// TODO: implement
 }
 
 void	move_camera(t_camera *const camera, const t_vector3d vector)
 {
-	t_vector3d	r_vector;
+	t_vector3d	r_vector = vector3df(0, 0, 1);
 	t_point3d	curr_pos;
 
-	r_vector = rotate_vector_x(vector, camera->sin_al_x, camera->cos_al_x);
-	r_vector = rotate_vector_z(r_vector, camera->sin_al_z, camera->cos_al_z);
-	r_vector = rotate_vector_y(r_vector, camera->sin_al_y, camera->cos_al_y);
+	r_vector = rotate_vector_by_matrix(r_vector, camera->rotation_matrix);
 	curr_pos = camera->camera_position;
 	camera->camera_position = point3d(curr_pos.x + r_vector.x,
 			curr_pos.y + r_vector.y, curr_pos.z + r_vector.z);

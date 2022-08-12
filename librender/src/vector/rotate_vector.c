@@ -1,28 +1,9 @@
 #include "vector.h"
 
-t_vector3d	rotate_vector_x(const t_vector3d p,
-	const double sin_al, const double cos_al)
+t_vector3d rotate_vector_by_matrix(const t_vector3d p, const t_rot_matrix m)
 {
-	const double	y = p.y * cos_al - p.z * sin_al;
-	const double	z = p.y * sin_al + p.z * cos_al;
-
-	return (vector3df(p.x, y, z));
-}
-
-t_vector3d	rotate_vector_y(const t_vector3d p,
-	const double sin_al, const double cos_al)
-{
-	const double	x = p.x * cos_al - p.z * sin_al;
-	const double	z = p.x * sin_al + p.z * cos_al;
-
-	return (vector3df(x, p.y, z));
-}
-
-t_vector3d	rotate_vector_z(const t_vector3d p,
-	const double sin_al, const double cos_al)
-{
-	const double	x = p.x * cos_al - p.y * sin_al;
-	const double	y = p.x * sin_al + p.y * cos_al;
-
-	return (vector3df(x, y, p.z));
+	return (vector3df(
+		p.x * m.m[0][0] + p.y * m.m[1][0] + p.z * m.m[2][0],
+		p.x * m.m[0][1] + p.y * m.m[1][1] + p.z * m.m[2][1],
+		p.x * m.m[0][2] + p.y * m.m[1][2] + p.z * m.m[2][2]));
 }
