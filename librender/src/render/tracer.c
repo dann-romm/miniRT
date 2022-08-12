@@ -56,6 +56,10 @@ t_vector3d	reflect_ray(const t_vector3d incident_ray, const t_vector3d norm_v);
 t_color	trace(const t_scene *const scene,
 	const t_camera *const camera, t_vector3d vector)
 {
+	double tmp = vector.x;
+	vector.x = -vector.y;
+	vector.y = tmp;
+
 	t_vector3d r_vector = rotate_vector_by_matrix(vector, camera->rotation_matrix);
 	return (trace_recursively(scene, camera->camera_position,
 		r_vector, INITIAL_RAY_INTENSITY, 0));
