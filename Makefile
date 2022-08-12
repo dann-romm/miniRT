@@ -30,7 +30,9 @@ GNL_SRC				=	$(GNL_SRCDIR)/get_next_line.c \
 						$(GNL_SRCDIR)/get_next_line_utils.c
 
 PARSER_SRC			=	$(PARSER_SRCDIR)/parse_map.c \
+						$(PARSER_SRCDIR)/parse_light.c \
 						$(PARSER_SRCDIR)/parse_camera.c \
+						$(PARSER_SRCDIR)/parse_sphere.c \
 						$(PARSER_SRCDIR)/parse_utils.c
 
 PLANE_SRC			=	$(PLANE_SRCDIR)/plane.c \

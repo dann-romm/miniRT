@@ -3,6 +3,7 @@
 
 # include "scene.h"
 # include "camera.h"
+# include "objects/sphere.h"
 # include "canvas.h"
 
 int		parse_map(char *filename);
@@ -13,6 +14,8 @@ int		parse_next_point(char *line, int i, t_point3d *point);
 
 // void	parse_camera(char *line, int i, t_camera **camera);
 void	parse_camera(char *line, int i);
+void	parse_sphere(char *line, int i);
+void	parse_light(char *line, int i);
 void	parse_ambient_lightning(char *line, int i); // not written yet
 
 #endif

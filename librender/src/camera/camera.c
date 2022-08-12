@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include "camera.h"
-#include <stdio.h>
+#include <stdio.h> // delete
 
 t_camera	*new_camera(const t_point3d camera_position, t_vector3d vector, const double proj_plane_dist)
 {
