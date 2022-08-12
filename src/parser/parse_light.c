@@ -21,5 +21,5 @@ void	parse_light(char *line, int i)
 	light_source = new_light_source(location, color);
 
 	//printf("color %hhu %hhu %hhu\n", light_source->color.r, light_source->color.g, light_source->color.b);
-	//printf("light %f %f %f\n", light_source->location.x, light_source->location.y, light_source->location.z);
+	//printf("location %f %f %f\n", light_source->location.x, light_source->location.y, light_source->location.z);
 }
