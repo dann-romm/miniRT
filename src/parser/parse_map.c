@@ -21,10 +21,10 @@ void parse_plane(char *line, int i)
 	color.g = tmp_point3d.y;
 	color.b = tmp_point3d.z;
 
+	plane_object = new_plane(point, normal, color, material);
 	//printf("color %hhu %hhu %hhu\n", color.r, color.g, color.b);
 	//printf("location %f %f %f\n", point.x, point.y, point.z);
 	//printf("normal %f %f %f\n", normal.x, normal.y, normal.z);
-	plane_object = new_plane(point, normal, color, material);
 }
 
 void	parse_element(char *line)
