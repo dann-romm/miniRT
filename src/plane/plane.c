@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include "objects/plane.h"
 
-t_object3d	*new_plane(t_point3d point, t_vector3d normal, t_color color, t_material material)
+t_object3d	*new_plane(t_point3d point, t_vector3d normal, t_color color)
 {
 	t_plane		*plane;
 	t_object3d	*plane_object;
@@ -10,7 +10,7 @@ t_object3d	*new_plane(t_point3d point, t_vector3d normal, t_color color, t_mater
 	plane->point = point;
 	plane->normal = normal;
 	plane->color = color;
-	plane->material = material;
+	plane->material = DEFAULT_MATERIAL;
 	plane_object = (t_object3d *)malloc(sizeof(t_object3d));
 	plane_object->data = plane;
 	plane_object->intersect = intersect_plane;

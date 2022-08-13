@@ -13,7 +13,7 @@ typedef struct s_plane
 }	t_plane;
 
 // initialize plane with given values
-t_object3d	*new_plane(t_point3d point, t_vector3d normal, t_color color, t_material material);
+t_object3d	*new_plane(t_point3d point, t_vector3d normal, t_color color);
 
 // check if the ray intersects the object
 // return TRUE if the ray intersects the object, FALSE otherwise

@@ -6,6 +6,8 @@
 # include "vector.h"
 # include "bool.h"
 
+# define DEFAULT_MATERIAL material(7, 7, 1, 1, 0, 10)
+
 typedef struct s_light_source3d
 {
 	t_point3d	location_world; // Absolute location
@@ -44,5 +46,9 @@ typedef struct s_object3d
 	//
 	void		(*release_data)(void *data);
 }	t_object3d;
+
+t_light_source3d	*new_light_source(const t_point3d location, const t_color color);
+
+t_material			material(const double Ka, const double Kd, const double Ks, const double Kr, const double Kt, const double p);
 
 #endif

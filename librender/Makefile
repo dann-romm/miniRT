@@ -38,11 +38,11 @@ RENDER_SRC			=	$(RENDER_SRCDIR)/reflect_ray.c \
 						$(RENDER_SRCDIR)/render.c \
 						$(RENDER_SRCDIR)/tracer.c
 
-SCENE_SRC			=	$(SCENE_SRCDIR)/scene.c \
-						$(SCENE_SRCDIR)/fog.c
+SCENE_SRC			=	$(SCENE_SRCDIR)/scene.c
 
 UTILS_FT_SRC		=	$(UTILS_FT_SRCDIR)/ft_bzero.c \
 						$(UTILS_FT_SRCDIR)/ft_calloc.c \
+						$(UTILS_FT_SRCDIR)/ft_realloc.c \
 						$(UTILS_FT_SRCDIR)/ft_memset.c \
 						$(UTILS_FT_SRCDIR)/ft_memcpy.c
 

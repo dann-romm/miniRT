@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include "objects/sphere.h"
 
-t_object3d	*new_sphere(t_point3d center, double radius, t_color color, t_material material)
+t_object3d	*new_sphere(t_point3d center, double radius, t_color color)
 {
 	t_sphere	*sphere;
 	t_object3d	*sphere_object;
@@ -10,7 +10,7 @@ t_object3d	*new_sphere(t_point3d center, double radius, t_color color, t_materia
 	sphere->center = center;
 	sphere->radius = radius;
 	sphere->color = color;
-	sphere->material = material;
+	sphere->material = DEFAULT_MATERIAL;
 	sphere_object = (t_object3d *)malloc(sizeof(t_object3d));
 	sphere_object->data = sphere;
 	sphere_object->intersect = intersect_sphere;

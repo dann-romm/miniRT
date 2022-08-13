@@ -45,8 +45,8 @@ void	parse_element(char *line)
 		parse_sphere(line, i + 2);
 	else if (ft_strncmp(&line[i], "pl", 2) == 0)
 		parse_plane(line, i + 2);
-	else if (ft_strncmp(&line[i], "cy", 2) == 0)
-		parse_camera(line, i + 2);
+	// else if (ft_strncmp(&line[i], "cy", 2) == 0)
+	// 	parse_camera(line, i + 2);
 }
 
 

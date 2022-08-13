@@ -2,6 +2,9 @@
 #include "scene.h"
 #include "utils_ft.h"
 
+# define DEFAULT_OBJECTS_SIZE 10
+# define DEFAULT_LIGHT_SOURCES_SIZE 10
+
 // Declarations
 // --------------------------------------------------------------
 
@@ -10,21 +13,22 @@ void	rebuild_kd_tree(t_scene *scene);
 // Code
 // --------------------------------------------------------------
 
-t_scene	*new_scene(const int objects_count, const int light_sources_count, const t_color background_color)
+t_scene	*new_scene(const t_color background_color)
 {
 	t_scene	*s;
 
 	s = malloc(sizeof(t_scene));
-	s->objects_count = objects_count;
-	s->objects = ft_calloc(objects_count, sizeof(t_object3d *));
-	if (light_sources_count)
-		s->light_sources = ft_calloc(light_sources_count, sizeof(t_light_source3d *));
-	s->light_sources_count = light_sources_count;
+	
+	s->objects_size = DEFAULT_OBJECTS_SIZE;
+	s->objects = malloc(s->objects_size * sizeof(t_object3d *));
+	
+	s->light_sources_size = DEFAULT_LIGHT_SOURCES_SIZE;
+	s->light_sources = malloc(s->light_sources_size * sizeof(t_light_source3d *));
+	
 	s->background_color = background_color;
-	s->last_object_index = -1;
-	s->last_light_source_index = -1;
-	s->fog_parameters = NULL;
-	s->fog_density = NULL;
+
+	s->objects_len = 0;
+	s->light_sources_len = 0;
 	s->kd_tree = NULL;
 	return (s);
 }
@@ -34,21 +38,19 @@ void	release_scene(t_scene *scene)
 	int	i;
 
 	i = -1;
-	while (++i < scene->objects_count)
+	while (++i < scene->objects_len)
 	{
 		if (scene->objects[i])
 			release_object3d(scene->objects[i]);
 	}
 	i = -1;
-	while (++i < scene->light_sources_count)
+	while (++i < scene->light_sources_len)
 	{
 		if (scene->light_sources[i])
 			free(scene->light_sources[i]);
 	}
 	free(scene->objects);
 	free(scene->light_sources);
-	if (scene->fog_parameters)
-		free(scene->fog_parameters);
 	if (scene->kd_tree)
 		release_kd_tree(scene->kd_tree);
 	free(scene);
@@ -56,7 +58,12 @@ void	release_scene(t_scene *scene)
 
 void	add_object(t_scene *const scene, t_object3d *const object)
 {	
-	scene->objects[++scene->last_object_index] = object;
+	if (scene->objects_len == scene->objects_size)
+	{
+		scene->objects_size *= 2;
+		scene->objects = ft_realloc(scene->objects, scene->objects_size * sizeof(t_object3d *));
+	}
+	scene->objects[scene->objects_len++] = object;
 }
 
 void	prepare_scene(t_scene *const scene)
@@ -67,15 +74,19 @@ void	prepare_scene(t_scene *const scene)
 void	add_light_source(t_scene *const scene,
 	t_light_source3d *const light_source)
 {
-	scene->light_sources[++scene->last_light_source_index] = light_source;
+	if (scene->light_sources_len == scene->light_sources_size)
+	{
+		scene->light_sources_size *= 2;
+		scene->light_sources = ft_realloc(scene->light_sources, scene->light_sources_size * sizeof(t_light_source3d *));
+	}
+	scene->light_sources[scene->light_sources_len++] = light_source;
 }
 
 void	rebuild_kd_tree(t_scene *scene)
 {
 	if (scene->kd_tree)
 		release_kd_tree(scene->kd_tree);
-	scene->kd_tree = build_kd_tree(scene->objects,
-			scene->last_object_index + 1);
+	scene->kd_tree = build_kd_tree(scene->objects, scene->objects_len);
 }
 
 void	release_object3d(t_object3d *obj)

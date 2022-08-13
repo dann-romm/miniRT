@@ -1,13 +1,21 @@
+#include <math.h>
 #include "render.h"
 #include <stdio.h>
 
 #define ANTIALIASING 1
 
+double	calc_divisor(const t_camera *camera, const t_canvas *canvas)
+{
+	double divisor;
+
+	divisor = canvas->w / (2.0 * camera->proj_plane_dist * tan(camera->fov / 2));
+	return divisor;
+}
+
 void	render_scene(const t_scene *const scene, const t_camera *const camera, t_canvas *canvas, const int num_threads)
 {
 	const double	dx = canvas->w / 2.0;
 	const double	dy = canvas->h / 2.0;
-	const double	focus = camera->proj_plane_dist;
 	int				i;
 	int				j;
 	double			x;
@@ -17,7 +25,7 @@ void	render_scene(const t_scene *const scene, const t_camera *const camera, t_ca
 
 	// TODO: consider possibility to define these OpenMP parameters
 	// in declarative style (using directives of preprocessor)
-	double divisor = canvas->w * sqrt(3) / focus;
+	double divisor = calc_divisor(camera, canvas);
 	i = 0;
 	while (i < canvas->w)
 	{
@@ -26,7 +34,7 @@ void	render_scene(const t_scene *const scene, const t_camera *const camera, t_ca
 		{
 			x = (i - dx) / divisor;
 			y = (j - dy) / divisor;
-			ray = vector3df(x, y, focus);
+			ray = vector3df(x, y, camera->proj_plane_dist);
 			col = trace(scene, camera, ray);
 			set_pixel(i, j, col, canvas);
 			j++;

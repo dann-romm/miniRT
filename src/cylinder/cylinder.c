@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include "objects/cylinder.h"
 
-t_object3d	*new_cylinder(double radius, double height, t_point3d center, t_vector3d vector, t_color color, t_material material)
+t_object3d	*new_cylinder(double radius, double height, t_point3d center, t_vector3d vector, t_color color)
 {
 	t_cylinder	*cylinder;
 	t_object3d	*cylinder_object;
@@ -12,7 +12,7 @@ t_object3d	*new_cylinder(double radius, double height, t_point3d center, t_vecto
 	cylinder->center = center;
 	cylinder->vector = vector;
 	cylinder->color = color;
-	cylinder->material = material;
+	cylinder->material = DEFAULT_MATERIAL;
 	cylinder_object = (t_object3d *)malloc(sizeof(t_object3d));
 	cylinder_object->data = cylinder;
 	cylinder_object->intersect = intersect_cylinder;

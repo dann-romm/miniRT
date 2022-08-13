@@ -106,9 +106,7 @@ t_color	calculate_color(const t_scene *const scene, const t_point3d vector_start
 
 	double	fog_density;
 	fog_density = 0;
-	if (scene->fog_density)
-		fog_density = scene->fog_density(dist, scene->fog_parameters);
-	
+
 	t_vector3d	reflected_ray;
 	if ((material.Ks) || (material.Kr))
 		reflected_ray = reflect_ray(vector, norm);
@@ -121,7 +119,7 @@ t_color	calculate_color(const t_scene *const scene, const t_point3d vector_start
 	if (material.Kd)
 	{
 		diffuse_color = obj_color;
-		if (scene->light_sources_count)
+		if (scene->light_sources_len)
 		{
 			t_color light_color = get_lighting_color(point, norm, scene);
 			diffuse_color = mix_colors(diffuse_color, light_color);
@@ -132,7 +130,7 @@ t_color	calculate_color(const t_scene *const scene, const t_point3d vector_start
 	if (material.Ks)
 	{
 		specular_color = scene->background_color;
-		if (scene->light_sources_count)
+		if (scene->light_sources_len)
 			specular_color = get_specular_color(point, reflected_ray, scene, material.p);
 	}
 	
@@ -163,8 +161,6 @@ t_color	calculate_color(const t_scene *const scene, const t_point3d vector_start
 		result_color = add_colors(result_color, mul_color(specular_color, material.Ks));
 	if (material.Kr)
 		result_color = add_colors(result_color, mul_color(reflected_color, material.Kr));
-	if (scene->fog_density)
-		result_color = add_colors(mul_color(scene->background_color, fog_density), mul_color(result_color, 1 - fog_density));
 
 	return (result_color);
 }
@@ -183,7 +179,7 @@ t_color	get_lighting_color(const t_point3d point, const t_vector3d norm_v, const
 	int					i;
 
 	i = 0;
-	while (i < scene->last_light_source_index + 1)
+	while (i < scene->light_sources_len)
 	{
 		if (scene->light_sources[i])
 		{
@@ -213,7 +209,7 @@ t_color	get_specular_color(const t_point3d point, const t_vector3d reflected_ray
 	int					i;
 	
 	i = 0;
-	while (i < scene->last_light_source_index + 1)
+	while (i < scene->light_sources_len)
 	{
 		if (scene->light_sources[i]) {
 			ls = scene->light_sources[i];

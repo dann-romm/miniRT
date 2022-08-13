@@ -14,7 +14,7 @@ typedef struct s_cylinder
 }	t_cylinder;
 
 // initialize cylinder with given values
-t_object3d	*new_cylinder(double radius, double height, t_point3d center, t_vector3d vector, t_color color, t_material material);
+t_object3d	*new_cylinder(double radius, double height, t_point3d center, t_vector3d vector, t_color color);
 
 // check if the ray intersects the object
 // return TRUE if the ray intersects the object, FALSE otherwise

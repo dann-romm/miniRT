@@ -1,5 +1,6 @@
 miniRT
 librender.a
+*.rt
 
 build
 *.o
@@ -10,3 +11,4 @@ build
 .idea
 
 mlx
+*.dylib
