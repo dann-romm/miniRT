@@ -3,18 +3,16 @@
 #include "camera.h"
 #include <stdio.h> // delete
 
-t_camera	*new_camera(const t_point3d camera_position, t_vector3d vector, const double proj_plane_dist)
+t_camera	*new_camera(const t_point3d camera_position, t_vector3d vector, const double fov)
 {
 	t_camera	*camera;
 
 	camera = malloc(sizeof(t_camera));
 	camera->camera_position = camera_position;
-
 	normalize_vector(&vector);
-	dprintf(2, "direction vector: %f %f %f\n", vector.x, vector.y, vector.z);
 	direction_vector_to_matrix(vector, &(camera->rotation_matrix));
-
-	camera->proj_plane_dist = proj_plane_dist;
+	camera->proj_plane_dist = DEFAULT_PROJECTION_PLANE_DISTANCE;
+	camera->fov = fov;
 	return (camera);
 }
 
