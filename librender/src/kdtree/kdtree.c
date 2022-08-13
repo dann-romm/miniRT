@@ -58,12 +58,16 @@ t_bool	point_in_voxel(const t_point3d p, const t_voxel v)
 
 void	release_kd_tree(t_KDTree *tree)
 {
+	if (!tree)
+		return ;
 	release_kd_node(tree->root);
 	free(tree);
 }
 
 void	release_kd_node(t_KDNode *node)
 {
+	if (!node)
+		return ;
 	if (node->l)
 		release_kd_node(node->l);
 	if (node->r)

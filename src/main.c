@@ -10,6 +10,8 @@
 #include "objects/plane.h"
 #include "utils_math.h"
 
+#include "parser.h"
+
 #define RT_WIDTH 640
 #define RT_HEIGHT 480
 #define RT_PROJ_PLANE_DIST 1.0
@@ -53,23 +55,12 @@ int	main(int ac, char **av)
 {
 	t_scene		*scene;
 	t_canvas	*canvas;
+	t_camera	*camera;
 
 	init_scene(&scene, &canvas);
 
-
-	t_object3d	*obj = new_sphere(point3d(-50, 0, 20), 20, rgb(150, 100, 100), material(7, 7, 1, 1, 0, 10));
-	t_object3d	*obj2 = new_sphere(point3d(-50, 0, 80), 40, rgb(0, 70, 255), material(0, 7, 0, 0, 0, 20));
-	t_light_source3d	*light_source = new_light_source(point3d(-10,1,6), rgb(255, 255, 255));
-	t_light_source3d	*light_source2 = new_light_source(point3d(60, 30, 20), rgb(255, 255, 255));
-
-	t_camera	*camera = new_camera(point3d(60, 0, 20), vector3df(-1, 0, 0), RT_PROJ_PLANE_DIST);
-
-
-	add_object(scene, obj);
-	add_object(scene, obj2);
-	add_light_source(scene, light_source);
-	add_light_source(scene, light_source2);
-	prepare_scene(scene);
+	t_parsed_data parsed_data = parse_map(av[1], scene);
+	camera = parsed_data.camera;
 	
 	void	*mlx = mlx_init();
 	void	*win = mlx_new_window(mlx, RT_WIDTH, RT_HEIGHT, "miniRT");
@@ -78,6 +69,7 @@ int	main(int ac, char **av)
 	data->addr = mlx_get_data_addr(data->img, &data->bits_per_pixel, &data->line_length, &data->endian);
 	mlx_put_image_to_window(mlx, win, data->img, 0, 0);
 
+	prepare_scene(scene);
 	dprintf(2, "Rendering...\n");
 	render_scene(scene, camera, canvas, 1);
 	dprintf(2, "Rendering done.\n");

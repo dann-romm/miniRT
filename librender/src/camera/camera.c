@@ -18,7 +18,8 @@ t_camera	*new_camera(const t_point3d camera_position, t_vector3d vector, const d
 
 void	release_camera(t_camera *const cam)
 {
-	free(cam);
+	if (cam)
+		free(cam);
 }
 
 void	rotate_camera(t_camera *const cam, const double al_x,

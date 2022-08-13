@@ -27,5 +27,6 @@ t_object3d	*new_cylinder(double radius, double height, t_point3d center, t_vecto
 
 void	release_data_cylinder(void *data)
 {
-	free((t_cylinder *)data);
+	if (data)
+		free((t_cylinder *)data);
 }

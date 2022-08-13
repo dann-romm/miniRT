@@ -16,6 +16,8 @@ t_canvas	*new_canvas(int width, int height)
 
 void	release_canvas(t_canvas *c)
 {
+	if (!c)
+		return ;
 	free(c->data);
 	free(c);
 }

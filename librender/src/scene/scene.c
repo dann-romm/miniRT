@@ -37,6 +37,8 @@ void	release_scene(t_scene *scene)
 {
 	int	i;
 
+	if (!scene)
+		return ;
 	i = -1;
 	while (++i < scene->objects_len)
 	{
@@ -91,6 +93,8 @@ void	rebuild_kd_tree(t_scene *scene)
 
 void	release_object3d(t_object3d *obj)
 {
+	if (!obj)
+		return ;
 	obj->release_data(obj->data);
 	free(obj);
 }

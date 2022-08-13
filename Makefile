@@ -24,7 +24,9 @@ UTILS_FT_SRCDIR		= $(SRCDIR)/utils_ft
 UTILS_MATH_SRCDIR	= $(SRCDIR)/utils_math
 
 # source files
-# CYLINDER_SRC		=	$(SRCDIR)/cylinder.c \
+CYLINDER_SRC		=	$(CYLINDER_SRCDIR)/cylinder.c \
+						$(CYLINDER_SRCDIR)/cylinder_get_funcs.c \
+						$(CYLINDER_SRCDIR)/cylinder_intersect.c
 
 GNL_SRC				=	$(GNL_SRCDIR)/get_next_line.c \
 						$(GNL_SRCDIR)/get_next_line_utils.c
@@ -50,11 +52,12 @@ UTILS_FT_SRC		=	$(UTILS_FT_SRCDIR)/ft_atof.c \
 						$(UTILS_FT_SRCDIR)/ft_strcmp.c \
 						$(UTILS_FT_SRCDIR)/ft_strncmp.c
 
-UTILS_MATH_SRC		=	$(UTILS_MATH_SRCDIR)/fov_to_proj_plane_dist.c \
+UTILS_MATH_SRC		=	$(UTILS_MATH_SRCDIR)/degree_to_radian.c \
 						$(UTILS_MATH_SRCDIR)/solve_quadratic.c
 
 
-SRC					=	$(GNL_SRC) \
+SRC					=	$(CYLINDER_SRC) \
+						$(GNL_SRC) \
 						$(PARSER_SRC) \
 						$(PLANE_SRC) \
 						$(SPHERE_SRC) \
