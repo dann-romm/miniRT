@@ -4,29 +4,6 @@
 #include "get_next_line.h"
 #include "parser.h"
 
-void parse_plane(char *line, int i)
-{
-	t_object3d	*plane_object;
-	t_point3d	point;
-	t_vector3d	normal;
-	t_point3d	tmp_point3d;
-	t_color		color;
-	t_material	material;
-
-	i = parse_next_point(line, i, &point);
-	i = parse_next_point(line, i, (t_point3d *)(&normal));
-	i = parse_next_point(line, i, &tmp_point3d);
-
-	color.r = tmp_point3d.x;
-	color.g = tmp_point3d.y;
-	color.b = tmp_point3d.z;
-
-	plane_object = new_plane(point, normal, color, material);
-	//printf("color %hhu %hhu %hhu\n", color.r, color.g, color.b);
-	//printf("location %f %f %f\n", point.x, point.y, point.z);
-	//printf("normal %f %f %f\n", normal.x, normal.y, normal.z);
-}
-
 void	parse_element(char *line)
 {
 	int	i;
@@ -45,8 +22,8 @@ void	parse_element(char *line)
 		parse_sphere(line, i + 2);
 	else if (ft_strncmp(&line[i], "pl", 2) == 0)
 		parse_plane(line, i + 2);
-	// else if (ft_strncmp(&line[i], "cy", 2) == 0)
-	// 	parse_camera(line, i + 2);
+	else if (ft_strncmp(&line[i], "cy", 2) == 0)
+		parse_cylinder(line, i + 2);
 }
 
 
